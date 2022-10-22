@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class GroupDto {
-    private int id;
+    private Long id;
 
     private String name;
 
