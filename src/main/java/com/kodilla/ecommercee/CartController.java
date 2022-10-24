@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.CartDto;
-import com.kodilla.ecommercee.entities.Product;
+import com.kodilla.ecommercee.domain.ProductDto;
 import com.kodilla.ecommercee.exceptions.CartNotFoundException;
 import com.kodilla.ecommercee.exceptions.ProductNotFoundException;
 import org.springframework.http.MediaType;
@@ -16,12 +16,25 @@ import java.util.List;
 public class CartController {
 
 @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-void createNewCart(@RequestBody CartDto cartDto) {
+CartDto createNewCart(@RequestBody CartDto cartDto) {
+    return CartDto.builder()
+            .id(4L)
+            .userId(341L)
+            .build();
 }
 
-@GetMapping(value ="/products")
-List<Product> getProductsFromCart(@PathVariable long cartId) throws CartNotFoundException {
-    return Arrays.asList(new Product(), new Product());
+@GetMapping(value ="/{cartId}")
+List<ProductDto> getProductsFromCart(@PathVariable long cartId) throws CartNotFoundException {
+    return Arrays.asList(
+            ProductDto.builder()
+            .id(3L)
+            .name("Test product 1")
+            .build(),
+
+            ProductDto.builder()
+                    .id(33L)
+                    .name("Test product 2")
+                    .build());
 }
 
 @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -29,7 +42,7 @@ CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId
     return CartDto.builder()
             .id(1)
             .userId(12)
-            .listOfProducts(Arrays.asList(new Product()))
+            .listOfProducts(Arrays.asList(ProductDto.builder().id(3L).name("Test product").build()))
             .build();
 }
 
@@ -38,11 +51,11 @@ CartDto removeProductFromCart(@RequestParam long cartId, @RequestParam long prod
     return CartDto.builder()
             .id(2)
             .userId(122)
-            .listOfProducts(Arrays.asList(new Product()))
+            .listOfProducts(Arrays.asList(ProductDto.builder().id(3L).name("Test product").build()))
             .build();
 }
 
-@GetMapping("/order")
+@GetMapping(value = "/order")
 void createOrder(@RequestParam long cartId) throws CartNotFoundException{
 }
 }
