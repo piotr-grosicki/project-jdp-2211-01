@@ -20,7 +20,7 @@ void createNewCart(@RequestBody CartDto cartDto) {
 }
 
 @GetMapping(value ="/products")
-List<Product> getProductsFromCart(@RequestParam long cartId) throws CartNotFoundException {
+List<Product> getProductsFromCart(@PathVariable long cartId) throws CartNotFoundException {
     return Arrays.asList(new Product(), new Product());
 }
 
