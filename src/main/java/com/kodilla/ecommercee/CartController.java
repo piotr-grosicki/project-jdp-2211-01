@@ -3,6 +3,7 @@ package com.kodilla.ecommercee;
 import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.entities.Product;
 import com.kodilla.ecommercee.exceptions.CartNotFoundException;
+import com.kodilla.ecommercee.exceptions.ProductNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +14,26 @@ import java.util.List;
 @RequestMapping("/v1/carts")
 @CrossOrigin("*")
 public class CartController {
+
 @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 void createNewCart(@RequestBody CartDto cartDto) {
 }
-@GetMapping("/products")
+
+@GetMapping(value ="/products")
 List<Product> getProductsFromCart(@RequestParam long cartId) throws CartNotFoundException {
     return new ArrayList<>();
 }
+
 @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException{
+CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException{
     return new CartDto();
 }
-@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-CartDto removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException {
+
+@DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+CartDto removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
     return new CartDto();
 }
+
 @GetMapping("/order")
 void createOrder(@RequestParam long cartId) throws CartNotFoundException{
 }
