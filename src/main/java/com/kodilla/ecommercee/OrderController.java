@@ -34,7 +34,7 @@ public class OrderController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto createOrder() {
+    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
         return OrderDto.builder()
                 .orderId(3)
                 .deliveryAdress("ul.Poznańska 22, 03-220 Poznań")
