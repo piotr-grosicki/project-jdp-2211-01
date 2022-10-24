@@ -7,7 +7,7 @@ import com.kodilla.ecommercee.exceptions.ProductNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -21,17 +21,25 @@ void createNewCart(@RequestBody CartDto cartDto) {
 
 @GetMapping(value ="/products")
 List<Product> getProductsFromCart(@RequestParam long cartId) throws CartNotFoundException {
-    return new ArrayList<>();
+    return Arrays.asList(new Product(), new Product());
 }
 
 @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException{
-    return new CartDto();
+    return CartDto.builder()
+            .id(1)
+            .userId(12)
+            .listOfProducts(Arrays.asList(new Product()))
+            .build();
 }
 
 @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 CartDto removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
-    return new CartDto();
+    return CartDto.builder()
+            .id(2)
+            .userId(122)
+            .listOfProducts(Arrays.asList(new Product()))
+            .build();
 }
 
 @GetMapping("/order")
