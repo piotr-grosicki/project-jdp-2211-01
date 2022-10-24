@@ -24,3 +24,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+/src/main/java/com/kodilla/ecommercee/service/
+/src/main/java/com/kodilla/ecommercee/mapper/
+/src/main/java/com/kodilla/ecommercee/repository/
+
