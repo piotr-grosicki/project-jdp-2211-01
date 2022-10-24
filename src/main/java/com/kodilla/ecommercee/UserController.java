@@ -9,8 +9,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/users")
-
-
 public class UserController {
 
 
@@ -19,14 +17,14 @@ public class UserController {
         return userDto;
     }
 
-    @PatchMapping(value = "/{userID/blockUser")
-    public boolean blockUser(@PathVariable int userID, boolean isActive) {
+    @PatchMapping(value = "/{userID}/blockUser")
+    public boolean blockUser(@PathVariable int userID) {
         return true;
 
     }
 
     @PatchMapping(value = "/{userID}/generateKey")
-    public UserDto generateToken(@PathVariable int userID) {
+    public UserDto generateToken(@PathVariable Long userID) {
 
         String randomToken = UUID.randomUUID().toString();
         return UserDto.builder()
