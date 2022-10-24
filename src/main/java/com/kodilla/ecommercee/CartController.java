@@ -37,7 +37,7 @@ List<ProductDto> getProductsFromCart(@PathVariable long cartId) throws CartNotFo
                     .build());
 }
 
-@PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+@PutMapping
 CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException{
     return CartDto.builder()
             .id(1)
@@ -46,7 +46,7 @@ CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId
             .build();
 }
 
-@DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+@DeleteMapping
 CartDto removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
     return CartDto.builder()
             .id(2)
