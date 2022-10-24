@@ -43,7 +43,7 @@ public class ProductController {
                 .build() ;
     }
 
-    @DeleteMapping(value = "{/productId}")
+    @DeleteMapping(value = "/{productId}")
     public ProductDto deleteProduct(@PathVariable Long productId){
         return ProductDto.builder()
                 .id(productId)
