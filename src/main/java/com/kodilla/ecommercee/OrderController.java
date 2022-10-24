@@ -17,29 +17,29 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> getOrders() {
         return Arrays.asList(OrderDto.builder()
-                .orderId(1)
-                .deliveryAdress("ul.Warszawska 21, 02-550 Warszawa")
-                .deliveryMethod("Courier GLS")
-                .ordearDatatime(LocalDateTime.now())
-                .value(new BigDecimal("2000.11 PLN"))
-                .build(),
+                        .orderId(1)
+                        .deliveryAddress("ul.Warszawska 21, 02-550 Warszawa")
+                        .deliveryMethod("Courier GLS")
+                        .orderDatetime(LocalDateTime.now())
+                        .value(new BigDecimal("2000.11 PLN"))
+                        .build(),
 
-        OrderDto.builder()
-                .orderId(2)
-                .deliveryAdress("ul.Wrocławska 22, 03-220 Wrocław")
-                .deliveryMethod("Courier UPS")
-                .ordearDatatime(LocalDateTime.now())
-                .value(new BigDecimal("1223.00 PLN"))
-                .build());
+                OrderDto.builder()
+                        .orderId(2)
+                        .deliveryAddress("ul.Wrocławska 22, 03-220 Wrocław")
+                        .deliveryMethod("Courier UPS")
+                        .orderDatetime(LocalDateTime.now())
+                        .value(new BigDecimal("1223.00 PLN"))
+                        .build());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
         return OrderDto.builder()
                 .orderId(3)
-                .deliveryAdress("ul.Poznańska 22, 03-220 Poznań")
+                .deliveryAddress("ul.Poznańska 22, 03-220 Poznań")
                 .deliveryMethod("Courier UPS")
-                .ordearDatatime(LocalDateTime.now())
+                .orderDatetime(LocalDateTime.now())
                 .value(new BigDecimal("1223.00 PLN"))
                 .build();
     }
@@ -48,9 +48,9 @@ public class OrderController {
     public OrderDto getOrder(@PathVariable int orderId) throws OrderNotFoundException {
         return OrderDto.builder()
                 .orderId(orderId)
-                .deliveryAdress("Warszawska 21, 02-550 Warszawa")
+                .deliveryAddress("Warszawska 21, 02-550 Warszawa")
                 .deliveryMethod("Courier GLS")
-                .ordearDatatime(LocalDateTime.now())
+                .orderDatetime(LocalDateTime.now())
                 .value(new BigDecimal("2000.11PLN"))
                 .build();
 
