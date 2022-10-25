@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @PatchMapping(value = "/{userID}/generateKey")
-    public UserDto generateToken(@PathVariable Long userID) {
+    public UserDto generateToken(@PathVariable long userID) {
 
         String randomToken = UUID.randomUUID().toString();
         return UserDto.builder()
