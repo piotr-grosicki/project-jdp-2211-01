@@ -15,7 +15,6 @@ import java.util.Optional;
 import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
-//@DataJpaTest
 @RunWith(SpringRunner.class)
 public class UserTestSuite {
 
@@ -31,7 +30,7 @@ public class UserTestSuite {
         Cart cart = new Cart();
         //When
 
-       // user.getOrderId().add(order);
+        user.getOrderId().add(order);
         user.getCartId().add(cart);
         System.out.println(user);
         userRepository.save(user);

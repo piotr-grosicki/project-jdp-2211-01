@@ -19,6 +19,6 @@ public class Order {
     private long orderId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
 }

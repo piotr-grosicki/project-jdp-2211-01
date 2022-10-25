@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "CART")
 @Entity
 public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
@@ -18,7 +19,7 @@ public class Cart {
     private long cartId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
 }
