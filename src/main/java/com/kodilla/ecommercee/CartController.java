@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/carts")
 @CrossOrigin("*")
-public class giCartController {
+public class  CartController {
 
 @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 CartDto createNewCart(@RequestBody CartDto cartDto) {
