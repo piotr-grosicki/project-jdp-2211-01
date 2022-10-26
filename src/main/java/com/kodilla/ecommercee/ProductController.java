@@ -3,8 +3,8 @@ package com.kodilla.ecommercee;
 import com.kodilla.ecommercee.domain.ProductDto;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -40,11 +40,11 @@ public class ProductController {
                 .description("Product description for tests - get product")
                 .quantity(110)
                 .price(new BigDecimal(55L))
-                .build() ;
+                .build();
     }
 
     @DeleteMapping(value = "/{productId}")
-    public ProductDto deleteProduct(@PathVariable Long productId){
+    public ProductDto deleteProduct(@PathVariable Long productId) {
         return ProductDto.builder()
                 .id(productId)
                 .name("Product test")
@@ -55,7 +55,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ProductDto updateTask(@RequestBody ProductDto productDto) throws ProductNotFoundException{
+    public ProductDto updateTask(@RequestBody ProductDto productDto) throws ProductNotFoundException {
         return productDto;
     }
 
@@ -67,6 +67,6 @@ public class ProductController {
                 .description("Product description for tests - create product")
                 .quantity(110)
                 .price(new BigDecimal(55L))
-                .build() ;
+                .build();
     }
 }
