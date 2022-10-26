@@ -45,5 +45,4 @@ public class Order {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "User_Id")
     private User user;
-
 }
