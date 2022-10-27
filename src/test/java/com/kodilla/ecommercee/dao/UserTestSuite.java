@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -34,7 +36,12 @@ public class UserTestSuite {
                 .login("Test login")
                 .password("Test password")
                 .build();
-        Order order = new Order();
+        Order order = Order.builder()
+                .deliveryMethod("test")
+                .deliveryAddress("test")
+                .value(BigDecimal.valueOf(123))
+                .orderDateTime(LocalDateTime.now())
+                .build();
         Cart cart = new Cart();
         //When
 
@@ -47,12 +54,12 @@ public class UserTestSuite {
         //Then
         Long id = user.getId();
         Optional<User> readUser = userRepository.findById(id);
-        //Long orderId = order.getOrderId();
-     //   Optional<Order> readOrder = orderDao.findById(orderId);
+       // Long orderId = order.getOrderId();
+        //Optional<Order> readOrder = orderDao.findById(orderId);
 
         //CleanUp
         userRepository.deleteById(id);
-        //assertTrue(readOrder.isPresent());
+       // assertTrue(readOrder.isPresent());
 
     }
 }

@@ -18,21 +18,21 @@ import java.util.List;
 @Table(name = "USERS")
 @Entity
 public class User {
-
+    @Builder.Default
     @OneToMany(
             targetEntity = Cart.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
 
-    private final List<Cart> cartId = new ArrayList<>();
-
+    private  List<Cart> cartId = new ArrayList<>();
+    @Builder.Default
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private final List<Order> orderId = new ArrayList<>();
+            fetch = FetchType.EAGER)
+    private  List<Order> orderId = new ArrayList<>();
 
     @Id
     @NotNull

@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Order {
 
     @Id
@@ -43,6 +45,6 @@ public class Order {
     private Cart cartId;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "User_Id")
+    @JoinColumn(name = "USER_ID")
     private User user;
 }
