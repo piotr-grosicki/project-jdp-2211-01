@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.dao;
 import com.kodilla.ecommercee.entities.Cart;
 import com.kodilla.ecommercee.entities.Order;
 import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.repository.OrderDao;
 import com.kodilla.ecommercee.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,8 @@ public class UserTestSuite {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OrderDao orderDao;
 
 
     @Test
@@ -41,17 +44,19 @@ public class UserTestSuite {
 
         user.getOrderId().add(order);
         user.getCartId().add(cart);
-        System.out.println(user);
+
         userRepository.save(user);
 
 
         //Then
         Long id = user.getId();
         Optional<User> readUser = userRepository.findById(id);
-        System.out.println(readUser);
-        assertTrue(readUser.isPresent());
+        Long orderId = order.getOrderId();
+        Optional<Order> readOrder = orderDao.findById(orderId);
 
         //CleanUp
         userRepository.deleteById(id);
+        assertTrue(readOrder.isPresent());
+
     }
 }
