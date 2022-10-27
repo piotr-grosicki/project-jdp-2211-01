@@ -1,5 +1,7 @@
 package com.kodilla.ecommercee.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +13,10 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
 @Table(name = "USERS")
 @Entity
+@Builder
 public class User {
 
     @OneToMany(
@@ -59,7 +63,7 @@ public class User {
     @Column(name = "IS_ACTIVE")
     private boolean isActive;
 
-    public User(String firstName, String surname, String deliveryAddress, String login, String password) {
+  /*  public User(String firstName, String surname, String deliveryAddress, String login, String password) {
         this.firstName = firstName;
         this.surname = surname;
         this.deliveryAddress = deliveryAddress;
@@ -67,5 +71,5 @@ public class User {
         this.password = password;
         this.key = "Test key";
         this.isActive = true;
-    }
+    }*/
 }

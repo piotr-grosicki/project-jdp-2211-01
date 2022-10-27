@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee;
+package com.kodilla.ecommercee.dao;
 
 import com.kodilla.ecommercee.entities.Cart;
 import com.kodilla.ecommercee.entities.Order;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
@@ -25,7 +26,15 @@ public class UserTestSuite {
     @Test
     public void testSaveUser() {
         //Given
-        User user = new User("Test name", "Test surname", "Test address", "Test login", "Test password");
+        User user = User.builder()
+                .firstName("Test name")
+                .surname("Test surname")
+                .deliveryAddress("Test address")
+                .login("Test login")
+                .password("Test password")
+                .cartId(new ArrayList<>())
+                .orderId(new ArrayList<>())
+                .build();
         Order order = new Order();
         Cart cart = new Cart();
         //When
