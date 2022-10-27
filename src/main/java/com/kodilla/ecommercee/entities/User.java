@@ -13,10 +13,10 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Builder
 @AllArgsConstructor
 @Table(name = "USERS")
 @Entity
-@Builder
 public class User {
 
     @OneToMany(
@@ -25,14 +25,14 @@ public class User {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
 
-    private List<Cart> cartId = new ArrayList<>();
+    private final List<Cart> cartId = new ArrayList<>();
 
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    private List<Order> orderId = new ArrayList<>();
+    private final List<Order> orderId = new ArrayList<>();
 
     @Id
     @NotNull
