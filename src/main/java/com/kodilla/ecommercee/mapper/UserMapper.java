@@ -17,7 +17,6 @@ public class UserMapper {
                 .deliveryAddress(userDto.getDeliveryAddress())
                 .login(userDto.getLogin())
                 .password(userDto.getPassword())
-                .key(userDto.getKey())
                 .isActive(userDto.isActive())
 
                 .build();
@@ -32,7 +31,6 @@ public class UserMapper {
                 .deliveryAddress(user.getDeliveryAddress())
                 .login(user.getLogin())
                 .password(user.getPassword())
-                .key(user.getKey())
                 .isActive(user.isActive())
                 .build();
 

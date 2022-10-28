@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,32 +10,35 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @Table(name = "USERS")
 @Entity
 public class User {
-    @Builder.Default
-    @OneToMany(
-            targetEntity = Cart.class,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-
-    private  List<Cart> cartId = new ArrayList<>();
-    @Builder.Default
-    @OneToMany(
-            targetEntity = Order.class,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
-    private  List<Order> orderId = new ArrayList<>();
 
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", unique = true)
     private long id;
+
+    @Builder.Default
+    @OneToMany(
+            targetEntity = Cart.class,
+            mappedBy = "user",
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY)
+    private List<Cart> cartId = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(
+            targetEntity = Order.class,
+            mappedBy = "user",
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.EAGER)
+    private List<Order> orderId = new ArrayList<>();
+
 
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -57,19 +57,9 @@ public class User {
     @NotNull
     private String password;
 
-    @Column(name = "KEY")
-    private String key;
-
     @Column(name = "IS_ACTIVE")
-    private boolean isActive;
+    @Builder.Default
+    private boolean isActive = true;
 
-  /*  public User(String firstName, String surname, String deliveryAddress, String login, String password) {
-        this.firstName = firstName;
-        this.surname = surname;
-        this.deliveryAddress = deliveryAddress;
-        this.login = login;
-        this.password = password;
-        this.key = "Test key";
-        this.isActive = true;
-    }*/
+
 }
