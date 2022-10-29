@@ -4,13 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
-@Data
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class OrderDto {
     private long orderId;
     private String deliveryAdress;
     private String deliveryMethod;
-    private LocalDateTime ordearData;
+    private LocalDateTime orderDateTime;
     private BigDecimal value;
 }
