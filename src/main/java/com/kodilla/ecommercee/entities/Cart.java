@@ -1,20 +1,26 @@
 package com.kodilla.ecommercee.entities;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
+@Getter
+@Table(name = "CART")
 @Entity
-@Data
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name = "Cart_id", unique = true)
+    @Column(name = "CART_ID", unique = true)
     private long cartId;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
 }

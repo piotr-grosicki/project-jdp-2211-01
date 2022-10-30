@@ -1,13 +1,15 @@
 package com.kodilla.ecommercee.repository;
 
 import com.kodilla.ecommercee.entities.Order;
+import com.kodilla.ecommercee.entities.User;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
 
-@Transactional
-@Repository
-public interface OrderDao extends CrudRepository<Order, Long> {
+public interface OrderDao extends CrudRepository<Order,Long> {
+
+    @Override
     Order save(Order order);
+
+    Optional<Order> findById(long id);
 }
