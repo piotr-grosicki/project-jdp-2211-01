@@ -21,11 +21,11 @@ public class Cart {
     @Column(name="cart_id", unique = true)
     private long id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id" )
     private User user;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "product_cart",
             joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
@@ -37,4 +37,8 @@ public class Cart {
         this.user = user;
         this.listOfProducts = listOfProducts;
     }
+
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
 }
