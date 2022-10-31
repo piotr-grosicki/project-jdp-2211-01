@@ -1,29 +1,65 @@
 package com.kodilla.ecommercee.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@Table(name = "USERS")
 @Entity
-@Data
 public class User {
 
     @Id
-    @GeneratedValue
     @NotNull
-    @Column(name = "User_Id", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID", unique = true)
     private long id;
 
-    @Column(name = "Name")
-    private String name;
+    @Builder.Default
+    @OneToMany(
+            targetEntity = Cart.class,
+            mappedBy = "user",
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY)
+    private List<Cart> cartId = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER)
-    private List<Order> listOfOrder = new ArrayList<>();
+    private List<Order> orderId = new ArrayList<>();
+
+
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+
+    @Column(name = "SURNAME")
+    private String surname;
+
+    @Column(name = "DELIVERY_ADDRESS")
+    private String deliveryAddress;
+
+    @Column(name = "LOGIN", unique = true)
+    @NotNull
+    private String login;
+
+    @Column(name = "PASSWORD")
+    @NotNull
+    private String password;
+
+    @Column(name = "IS_ACTIVE")
+    @Builder.Default
+    private boolean isActive = true;
+
+
 }
