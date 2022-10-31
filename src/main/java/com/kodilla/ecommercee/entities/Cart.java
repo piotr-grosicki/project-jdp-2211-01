@@ -29,7 +29,7 @@ public class Cart {
     @JoinTable(
             name = "product_cart",
             joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "product_id")}
+            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
     )
     private List<Product> listOfProducts;
 
