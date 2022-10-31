@@ -19,7 +19,7 @@ public class Cart {
     @GeneratedValue
     @NotNull
     @Column(name="cart_id", unique = true)
-    private long id;
+    private long cartId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id" )
