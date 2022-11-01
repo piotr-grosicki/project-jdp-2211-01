@@ -8,6 +8,7 @@ import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.UserDao;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,9 @@ import java.util.Date;
 @RequestMapping("/v1/users")
 public class UserController {
 
+    @Autowired
     private UserMapper userMapper;
+    @Autowired
     private UserDao userDao;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -59,7 +62,6 @@ public class UserController {
                .setIssuedAt(new Date(now))
                .setExpiration(new Date(now +3600))
                .signWith(signingKey,signatureAlgorithm).compact();
-
     }
 
 }
