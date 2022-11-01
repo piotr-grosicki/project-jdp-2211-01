@@ -21,7 +21,7 @@ public class Cart {
     @Column(name="cart_id", unique = true)
     private long cartId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id" )
     private User user;
 
