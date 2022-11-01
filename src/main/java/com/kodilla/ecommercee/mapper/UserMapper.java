@@ -18,7 +18,6 @@ public class UserMapper {
                 .login(userDto.getLogin())
                 .password(userDto.getPassword())
                 .isActive(userDto.isActive())
-
                 .build();
 
     }

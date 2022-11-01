@@ -17,6 +17,5 @@ public class UserDto {
     private String deliveryAddress;
     private String login;
     private String password;
-    private String key;
     private boolean isActive;
 }
