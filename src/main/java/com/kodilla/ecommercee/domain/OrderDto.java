@@ -15,6 +15,6 @@ public class OrderDto {
     private long orderId;
     private String deliveryAddress;
     private String deliveryMethod;
-    private LocalDateTime orderDatetime;
+    private LocalDateTime orderDateTime;
     private BigDecimal value;
 }
