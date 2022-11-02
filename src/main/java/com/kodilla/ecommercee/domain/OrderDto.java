@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Builder
 public class OrderDto {
     private long orderId;
-    private String deliveryAdress;
+    private String deliveryAddress;
     private String deliveryMethod;
-    private LocalDateTime ordearData;
+    private LocalDateTime orderData;
     private BigDecimal value;
 }

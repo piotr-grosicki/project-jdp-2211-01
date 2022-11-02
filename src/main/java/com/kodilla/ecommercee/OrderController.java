@@ -17,17 +17,17 @@ public class OrderController {
     public List<OrderDto> getOrders() {
         return Arrays.asList(OrderDto.builder()
                 .orderId(1L)
-                .deliveryAdress("ul.Warszawska 21, 02-550 Warszawa")
+                .deliveryAddress("ul.Warszawska 21, 02-550 Warszawa")
                 .deliveryMethod("Courier GLS")
-                .ordearData(LocalDateTime.now())
+                .orderData(LocalDateTime.now())
                 .value(new BigDecimal(200L))
                 .build(),
 
         OrderDto.builder()
                 .orderId(2L)
-                .deliveryAdress("ul.Wrocławska 22, 03-220 Wrocław")
+                .deliveryAddress("ul.Wrocławska 22, 03-220 Wrocław")
                 .deliveryMethod("Courier UPS")
-                .ordearData(LocalDateTime.now())
+                .orderData(LocalDateTime.now())
                 .value(new BigDecimal(200L))
                 .build());
     }
@@ -36,9 +36,9 @@ public class OrderController {
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
         return OrderDto.builder()
                 .orderId(3L)
-                .deliveryAdress("ul.Poznańska 22, 03-220 Poznań")
+                .deliveryAddress("ul.Poznańska 22, 03-220 Poznań")
                 .deliveryMethod("Courier UPS")
-                .ordearData(LocalDateTime.now())
+                .orderData(LocalDateTime.now())
                 .value(new BigDecimal(200L))
                 .build();
     }
@@ -47,9 +47,9 @@ public class OrderController {
     public OrderDto getOrder(@PathVariable int orderId) throws OrderNotFoundException {
         return OrderDto.builder()
                 .orderId(orderId)
-                .deliveryAdress("Warszawska 21, 02-550 Warszawa")
+                .deliveryAddress("Warszawska 21, 02-550 Warszawa")
                 .deliveryMethod("Courier GLS")
-                .ordearData(LocalDateTime.now())
+                .orderData(LocalDateTime.now())
                 .value(new BigDecimal(200L))
                 .build();
 
