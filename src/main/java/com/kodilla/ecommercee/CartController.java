@@ -2,7 +2,10 @@ package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.domain.ProductDto;
+<<<<<<< HEAD
 
+=======
+>>>>>>> f2d3c4ec2066c82f96428bd68ecd291e2b8b1760
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import org.springframework.http.MediaType;

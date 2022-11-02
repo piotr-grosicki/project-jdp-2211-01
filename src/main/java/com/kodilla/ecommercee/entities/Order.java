@@ -1,9 +1,13 @@
 package com.kodilla.ecommercee.entities;
 
+<<<<<<< HEAD
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+=======
+import lombok.*;
+>>>>>>> f2d3c4ec2066c82f96428bd68ecd291e2b8b1760
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,10 +16,15 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Orders")
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+<<<<<<< HEAD
 @Builder
+=======
+@AllArgsConstructor
+@Data
+@Builder
+@Getter
+>>>>>>> f2d3c4ec2066c82f96428bd68ecd291e2b8b1760
 public class Order {
 
     @Id
