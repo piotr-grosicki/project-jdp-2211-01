@@ -8,14 +8,14 @@ import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.UserDao;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 
 
@@ -23,45 +23,52 @@ import java.util.Date;
 @RequestMapping("/v1/users")
 public class UserController {
 
-    @Autowired
+
     private UserMapper userMapper;
-    @Autowired
+
     private UserDao userDao;
+
+    @Autowired
+    public UserController(UserMapper userMapper, UserDao userDao) {
+        this.userMapper = userMapper;
+        this.userDao = userDao;
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
         userDao.save(user);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(null);
     }
 
 
     @PatchMapping(value = "/{userID}/blockUser")
-    public ResponseEntity<Boolean> blockUser(@PathVariable long userID) throws UserNotFoundException {
+    public ResponseEntity<Void> blockUser(@PathVariable long userID) throws UserNotFoundException {
         User user = userDao.findById(userID).orElseThrow(UserNotFoundException::new);
         user.setActive(false);
         userDao.save(user);
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(null);
 
 
     }
 
-    @PatchMapping(value = "/{userID}/generateToken")
-    public String generateToken(@PathVariable long userID) throws UserNotFoundException {
-        User user = userDao.findById(userID).orElseThrow(UserNotFoundException::new);
-        String SECRET_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2p3dC1pZHAuZXhhbXBsZS5jb20iLCJzdWIiOiJtYWlsdG86bWlrZUBleGFtcGxlLmNvbSIsIm5iZiI6MTY2NzE1NzIyOCwiZXhwIjoxNjY3MTYwODI4LCJpYXQiOjE2NjcxNTcyMjgsImp0aSI6ImlkMTIzNDU2IiwidHlwIjoiaHR0cHM6Ly9leGFtcGxlLmNvbS9yZWdpc3RlciJ9.0hcomVZ_yLmnDpVnJM3g953tciGIUfwrsxGFyt-OoMc";
-        long now = System.currentTimeMillis();
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
-        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
-        return Jwts.builder()
-               .setSubject(user.getLogin())
-               .setIssuedAt(new Date(now))
-               .setExpiration(new Date(now +3600))
-               .signWith(signingKey,signatureAlgorithm).compact();
+    @GetMapping(value = "/{login}/generateToken")
+    public ResponseEntity<String> generateToken(@PathVariable String login, String password) throws UserNotFoundException {
+        User user = userDao.findByLogin(login).orElseThrow(UserNotFoundException::new);
+        if (user.getPassword().equals(password)) {
+            val keys = Keys.keyPairFor(SignatureAlgorithm.ES512);
+            return ResponseEntity.ok(Jwts.builder()
+                    .setSubject("userid") // 1
+                    .setIssuedAt(Date.from(Instant.now()))
+                    .setExpiration(Date.from(Instant.now().plusSeconds(3600)))
+                    .claim("roles", "user")
+                    .signWith(keys.getPrivate()).compact());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
+
 
 }

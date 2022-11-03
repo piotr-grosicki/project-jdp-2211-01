@@ -29,6 +29,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation('io.jsonwebtoken:jjwt-api:0.11.5')
+    implementation('com.auth0:java-jwt:4.2.1')
 
 
     runtimeOnly('mysql:mysql-connector-java')

@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDbService {
+public class UserService {
+
+
+    private UserDao userDao;
 
     @Autowired
-    private final UserDao userDao;
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     public User getUser(final long id) throws UserNotFoundException {
         return userDao.findById(id).orElseThrow(UserNotFoundException::new);
