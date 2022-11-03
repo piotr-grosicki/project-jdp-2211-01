@@ -4,7 +4,6 @@ import com.kodilla.ecommercee.entities.Order;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.repository.OrderDao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +12,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderDbService {
-    @Autowired
     private final OrderDao orderRepository;
 
-    public List<Order> getALlOrders() {
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
