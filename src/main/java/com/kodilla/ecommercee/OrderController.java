@@ -5,7 +5,6 @@ import com.kodilla.ecommercee.entities.Order;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.OrderDbService;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/orders")
-@Builder
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderMapper orderMapper;
@@ -23,7 +21,7 @@ public class OrderController {
 
     @GetMapping
     public List<OrderDto> getOrders() {
-        List<Order> orders = orderDbService.getALlOrders();
+        List<Order> orders = orderDbService.getAllOrders();
         return orderMapper.mapToOrderDtoList(orders);
     }
 
@@ -31,7 +29,7 @@ public class OrderController {
     public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
         Order order = orderMapper.mapToOrder(orderDto);
         orderDbService.saveOrder(order);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping(value = "/{orderId}")
@@ -42,13 +40,13 @@ public class OrderController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) {
         Order order = orderMapper.mapToOrder(orderDto);
-        Order saveOrder = orderDbService.saveOrder(order);
-        return ResponseEntity.ok(orderMapper.mapToOrderDto(saveOrder));
+        orderDbService.saveOrder(order);
+        return ResponseEntity.ok(null);
     }
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
         orderDbService.deleteOrder(orderId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(null);
     }
 }
