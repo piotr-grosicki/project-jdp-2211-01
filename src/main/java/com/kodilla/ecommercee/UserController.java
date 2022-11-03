@@ -9,30 +9,28 @@ import com.kodilla.ecommercee.repository.UserDao;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.KeyPair;
 import java.time.Instant;
 import java.util.Date;
 
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    @Autowired
-    public UserController(UserMapper userMapper, UserDao userDao) {
-        this.userMapper = userMapper;
-        this.userDao = userDao;
-    }
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
@@ -50,25 +48,23 @@ public class UserController {
         userDao.save(user);
 
         return ResponseEntity.ok(null);
-
-
     }
 
+
     @GetMapping(value = "/{login}/generateToken")
-    public ResponseEntity<String> generateToken(@PathVariable String login, String password) throws UserNotFoundException {
-        User user = userDao.findByLogin(login).orElseThrow(UserNotFoundException::new);
-        if (user.getPassword().equals(password)) {
-            val keys = Keys.keyPairFor(SignatureAlgorithm.ES512);
+    public ResponseEntity<String> generateToken(@PathVariable String login, String password) {
+        User user = userDao.findByLogin(login).orElse(null);
+        Date dateNow = Date.from(Instant.now());
+        if (user!=null && user.getPassword().equals(password)) {
+            KeyPair keys = Keys.keyPairFor(SignatureAlgorithm.ES512);
             return ResponseEntity.ok(Jwts.builder()
-                    .setSubject("userid") // 1
-                    .setIssuedAt(Date.from(Instant.now()))
-                    .setExpiration(Date.from(Instant.now().plusSeconds(3600)))
+                    .setSubject(user.getLogin())
+                    .setIssuedAt(dateNow)
+                    .setExpiration(Date.from(dateNow.toInstant().plusSeconds(3600)))
                     .claim("roles", "user")
                     .signWith(keys.getPrivate()).compact());
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
-
-
 }
