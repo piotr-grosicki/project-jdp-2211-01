@@ -8,6 +8,6 @@ import javax.persistence.Id;
 public class Product {
 
     @Id
-    @Column(name="product_id", unique = true)
+    @Column(name = "product_id", unique = true)
     private long id;
 }

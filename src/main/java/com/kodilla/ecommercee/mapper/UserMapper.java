@@ -4,12 +4,10 @@ import com.kodilla.ecommercee.domain.UserDto;
 import com.kodilla.ecommercee.entities.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-
 @Service
 public class UserMapper {
 
-    public User mapToUser(final UserDto userDto){
+    public User mapToUser(final UserDto userDto) {
         return User.builder()
                 .id(userDto.getId())
                 .firstName(userDto.getFirstName())
@@ -19,10 +17,9 @@ public class UserMapper {
                 .password(userDto.getPassword())
                 .isActive(userDto.isActive())
                 .build();
-
     }
 
-    public UserDto mapToUserDto(final User user){
+    public UserDto mapToUserDto(final User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -32,6 +29,5 @@ public class UserMapper {
                 .password(user.getPassword())
                 .isActive(user.isActive())
                 .build();
-
     }
 }
