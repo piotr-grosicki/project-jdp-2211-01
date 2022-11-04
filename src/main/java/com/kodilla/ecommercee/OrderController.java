@@ -4,7 +4,6 @@ import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -17,30 +16,30 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> getOrders() {
         return Arrays.asList(OrderDto.builder()
-                        .orderId(1)
-                        .deliveryAddress("ul.Warszawska 21, 02-550 Warszawa")
-                        .deliveryMethod("Courier GLS")
-                        .orderDatetime(LocalDateTime.now())
-                        .value(new BigDecimal("2000.11 PLN"))
-                        .build(),
+                .orderId(1L)
+                .deliveryAddress("ul.Warszawska 21, 02-550 Warszawa")
+                .deliveryMethod("Courier GLS")
+                .orderData(LocalDateTime.now())
+                .value(new BigDecimal(200L))
+                .build(),
 
-                OrderDto.builder()
-                        .orderId(2)
-                        .deliveryAddress("ul.Wrocławska 22, 03-220 Wrocław")
-                        .deliveryMethod("Courier UPS")
-                        .orderDatetime(LocalDateTime.now())
-                        .value(new BigDecimal("1223.00 PLN"))
-                        .build());
+        OrderDto.builder()
+                .orderId(2L)
+                .deliveryAddress("ul.Wrocławska 22, 03-220 Wrocław")
+                .deliveryMethod("Courier UPS")
+                .orderData(LocalDateTime.now())
+                .value(new BigDecimal(200L))
+                .build());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public OrderDto createOrder(@RequestBody OrderDto orderDto) {
         return OrderDto.builder()
-                .orderId(3)
+                .orderId(3L)
                 .deliveryAddress("ul.Poznańska 22, 03-220 Poznań")
                 .deliveryMethod("Courier UPS")
-                .orderDatetime(LocalDateTime.now())
-                .value(new BigDecimal("1223.00 PLN"))
+                .orderData(LocalDateTime.now())
+                .value(new BigDecimal(200L))
                 .build();
     }
 
@@ -50,8 +49,8 @@ public class OrderController {
                 .orderId(orderId)
                 .deliveryAddress("Warszawska 21, 02-550 Warszawa")
                 .deliveryMethod("Courier GLS")
-                .orderDatetime(LocalDateTime.now())
-                .value(new BigDecimal("2000.11PLN"))
+                .orderData(LocalDateTime.now())
+                .value(new BigDecimal(200L))
                 .build();
 
     }
