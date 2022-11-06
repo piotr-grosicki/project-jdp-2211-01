@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee;
 
 
+import com.kodilla.ecommercee.domain.AuthDto;
 import com.kodilla.ecommercee.domain.UserDto;
 import com.kodilla.ecommercee.entities.User;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
@@ -30,13 +31,10 @@ public class UserController {
 
     private final UserDao userDao;
 
-
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
         userDao.save(user);
-
         return ResponseEntity.ok(null);
     }
 
@@ -46,16 +44,15 @@ public class UserController {
         User user = userDao.findById(userID).orElseThrow(UserNotFoundException::new);
         user.setActive(false);
         userDao.save(user);
-
         return ResponseEntity.ok(null);
     }
 
 
-    @GetMapping(value = "/{login}/generateToken")
-    public ResponseEntity<String> generateToken(@PathVariable String login, String password) {
-        User user = userDao.findByLogin(login).orElse(null);
+    @GetMapping(value = "/generateToken")
+    public ResponseEntity<String> generateToken(@RequestBody AuthDto authDto) {
+        User user = userDao.findByLogin(authDto.getLogin()).orElse(null);
         Date dateNow = Date.from(Instant.now());
-        if (user!=null && user.getPassword().equals(password)) {
+        if (user!=null && user.getPassword().equals(authDto.getPassword())) {
             KeyPair keys = Keys.keyPairFor(SignatureAlgorithm.ES512);
             return ResponseEntity.ok(Jwts.builder()
                     .setSubject(user.getLogin())
