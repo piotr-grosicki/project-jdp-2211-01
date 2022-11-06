@@ -48,7 +48,7 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/generateToken")
+    @PostMapping(value = "/generateToken")
     public ResponseEntity<String> generateToken(@RequestBody AuthDto authDto) {
         User user = userDao.findByLogin(authDto.getLogin()).orElse(null);
         Date dateNow = Date.from(Instant.now());
