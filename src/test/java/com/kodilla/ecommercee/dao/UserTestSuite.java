@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.dao;
 
-import com.kodilla.ecommercee.entities.Cart;
-import com.kodilla.ecommercee.entities.Order;
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.Cart;
+import com.kodilla.ecommercee.entity.Order;
+import com.kodilla.ecommercee.entity.User;
 import com.kodilla.ecommercee.repository.CartDao;
 import com.kodilla.ecommercee.repository.OrderDao;
 import com.kodilla.ecommercee.repository.UserDao;

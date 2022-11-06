@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.User;
 import org.springframework.stereotype.Service;
 
 @Service
