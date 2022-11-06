@@ -1,5 +1,9 @@
 package com.kodilla.ecommercee.domain;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -11,6 +15,6 @@ public class OrderDto {
     private long orderId;
     private String deliveryAddress;
     private String deliveryMethod;
-    private LocalDateTime orderData;
+    private LocalDateTime orderDateTime;
     private BigDecimal value;
 }
