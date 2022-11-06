@@ -68,7 +68,7 @@ public class UserTestSuite {
         Optional<Order> readOrder = orderDao.findById(orderId);
 
         Long cartId = cart.getId();
-        Optional<Cart> readCart = cartDao.findByCartId(cartId);
+        Optional<Cart> readCart = cartDao.findById(cartId);
 
         assertTrue(readUser.isPresent());
 
