@@ -3,7 +3,7 @@ package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.AuthDto;
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.User;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.UserDao;

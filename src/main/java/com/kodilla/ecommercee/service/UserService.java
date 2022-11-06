@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.User;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.UserDao;
 import lombok.RequiredArgsConstructor;
