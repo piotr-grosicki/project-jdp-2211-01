@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.entities.Cart;
+import com.kodilla.ecommercee.entity.Cart;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

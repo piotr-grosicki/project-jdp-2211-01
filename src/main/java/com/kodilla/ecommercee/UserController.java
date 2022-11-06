@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.User;
 import com.kodilla.ecommercee.mapper.UserMapper;
 import com.kodilla.ecommercee.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
