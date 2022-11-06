@@ -12,16 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Entity(name= "carts")
+@Entity
 public class Cart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name="cart_id", unique = true)
-    private long cartId;
+    private long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id" )
     private User user;
 
@@ -33,12 +32,7 @@ public class Cart {
     )
     private List<Product> listOfProducts;
 
-    public Cart(User user, List<Product> listOfProducts) {
-        this.user = user;
-        this.listOfProducts = listOfProducts;
-    }
-
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 }
