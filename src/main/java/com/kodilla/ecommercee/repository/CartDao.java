@@ -11,5 +11,5 @@ public interface CartDao extends CrudRepository<Cart,Long> {
     Cart save(Cart cart);
 
 
-    Optional<Cart> findById(long id);
+    Optional<Cart> findById(Long id);
 }

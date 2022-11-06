@@ -19,7 +19,7 @@ public class Cart {
     @GeneratedValue
     @NotNull
     @Column(name="cart_id", unique = true)
-    private long id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id" )
@@ -34,6 +34,6 @@ public class Cart {
     private List<Product> listOfProducts;
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ORDER_ID")
+    @JoinColumn(name = "order_id")
     private Order order;
 }
