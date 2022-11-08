@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.dao;
 
-import com.kodilla.ecommercee.entities.Cart;
-import com.kodilla.ecommercee.entities.Order;
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.Cart;
+import com.kodilla.ecommercee.entity.Order;
+import com.kodilla.ecommercee.entity.User;
 import com.kodilla.ecommercee.repository.CartDao;
 import com.kodilla.ecommercee.repository.OrderDao;
 import com.kodilla.ecommercee.repository.UserDao;
@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -29,41 +30,50 @@ public class OrderTestSuite {
     @Autowired
     private CartDao cartDao;
 
-    @Test
-    public void getOrders(){
-        //Given
-        User user = User.builder()
+    private User generateUser(){
+        Random random = new Random();
+        int number = random.nextInt();
+        return User.builder()
                 .firstName("John")
                 .surname("Smith")
                 .deliveryAddress("ul. Kasztanowa 14F/58 03-197 Warszawa")
-                .login("john_smith1")
+                .login("" + number)
                 .password("john123456")
                 .build();
-        Cart cart1 = new Cart(user, new ArrayList<>());
-        Cart cart2 = new Cart(user, new ArrayList<>());
+    }
 
-        Order order1 = Order.builder()
+    private Order generateOrder(){
+        return Order.builder()
                 .deliveryMethod("courier")
-                .deliveryAddress(user.getDeliveryAddress())
+                .deliveryAddress("delivery address")
                 .value(BigDecimal.valueOf(145))
                 .orderDateTime(LocalDateTime.now())
                 .build();
+    }
 
-        Order order2 = Order.builder()
-                .deliveryMethod("postal service")
-                .deliveryAddress(user.getDeliveryAddress())
-                .value(BigDecimal.valueOf(3285))
-                .orderDateTime(LocalDateTime.now())
-                .build();
+    @Test
+    public void getOrders(){
+        //Given
+        User user1 = generateUser();
+        User user2 = generateUser();
+        Cart cart1 = new Cart(user1, new ArrayList<>());
+        Cart cart2 = new Cart(user2, new ArrayList<>());
+        Order order1 = generateOrder();
+        Order order2 = generateOrder();
 
-        user.getCartId().add(cart1);
-        user.getOrderId().add(order1);
-        user.getCartId().add(cart2);
-        user.getOrderId().add(order2);
-        order1.setUser(user);
+        user1.getOrderId().add(order1);
+        user1.getCartId().add(cart1);
+        user2.getOrderId().add(order2);
+        user2.getCartId().add(cart2);
+        order1.setUser(user1);
         order1.setCartId(cart1);
-        order2.setUser(user);
+        order2.setUser(user2);
         order2.setCartId(cart2);
+
+        userDao.save(user1);
+        userDao.save(user2);
+        cartDao.save(cart1);
+        cartDao.save(cart2);
 
         //When
         orderDao.save(order1);
@@ -72,6 +82,11 @@ public class OrderTestSuite {
         //Then
         assertEquals(2, orderDao.findAll().size());
 
+        //Cleanup
+        cartDao.deleteById(cart1.getCartId());
+        cartDao.deleteById(cart2.getCartId());
+        userDao.deleteById(user1.getId());
+        userDao.deleteById(user2.getId());
         orderDao.deleteById(order1.getOrderId());
         orderDao.deleteById(order2.getOrderId());
     }
@@ -79,26 +94,17 @@ public class OrderTestSuite {
     @Test
     public void createOrder(){
         //Given
-        User user = User.builder()
-                .firstName("John")
-                .surname("Smith")
-                .deliveryAddress("ul. Kasztanowa 14F/58 03-197 Warszawa")
-                .login("john_smith2")
-                .password("john123456")
-                .build();
+        User user = generateUser();
         Cart cart = new Cart(user, new ArrayList<>());
-
-        Order order = Order.builder()
-                .deliveryMethod("courier")
-                .deliveryAddress(user.getDeliveryAddress())
-                .value(BigDecimal.valueOf(145))
-                .orderDateTime(LocalDateTime.now())
-                .build();
+        Order order = generateOrder();
 
         user.getOrderId().add(order);
         user.getCartId().add(cart);
         order.setUser(user);
         order.setCartId(cart);
+
+        userDao.save(user);
+        cartDao.save(cart);
 
         //When
         orderDao.save(order);
@@ -113,32 +119,27 @@ public class OrderTestSuite {
         catch(Exception e) {
             System.out.println("Order not created.");
         }
+
+        //Cleanup
+        cartDao.deleteById(cart.getCartId());
+        userDao.deleteById(user.getId());
         orderDao.deleteById(order.getOrderId());
     }
 
     @Test
     public void getOrder(){
         //Given
-        User user = User.builder()
-                .firstName("John")
-                .surname("Smith")
-                .deliveryAddress("ul. Kasztanowa 14F/58 03-197 Warszawa")
-                .login("john_smith3")
-                .password("john123456")
-                .build();
-        Cart cart5 = new Cart(user, new ArrayList<>());
-
-        Order order = Order.builder()
-                .deliveryMethod("courier")
-                .deliveryAddress(user.getDeliveryAddress())
-                .value(BigDecimal.valueOf(145))
-                .orderDateTime(LocalDateTime.now())
-                .build();
+        User user = generateUser();
+        Cart cart = new Cart(user, new ArrayList<>());
+        Order order = generateOrder();
 
         user.getOrderId().add(order);
-        user.getCartId().add(cart5);
+        user.getCartId().add(cart);
         order.setUser(user);
-        order.setCartId(cart5);
+        order.setCartId(cart);
+
+        userDao.save(user);
+        cartDao.save(cart);
 
         //When
         orderDao.save(order);
@@ -151,37 +152,29 @@ public class OrderTestSuite {
         catch(Exception e) {
             System.out.println("Order not found.");
         }
-
         assertTrue(result);
 
+        //Cleanup
+        cartDao.deleteById(cart.getCartId());
+        userDao.deleteById(user.getId());
         orderDao.deleteById(order.getOrderId());
     }
 
     @Test
     public void updateOrder(){
         //Given
-        User user = User.builder()
-                .firstName("John")
-                .surname("Smith")
-                .deliveryAddress("ul. Kasztanowa 14F/58 03-197 Warszawa")
-                .login("john_smith4")
-                .password("john123456")
-                .build();
-        Cart cart4 = new Cart(user, new ArrayList<>());
-
-        Order order = Order.builder()
-                .deliveryMethod("courier")
-                .deliveryAddress(user.getDeliveryAddress())
-                .value(BigDecimal.valueOf(145))
-                .orderDateTime(LocalDateTime.now())
-                .build();
+        User user = generateUser();
+        Cart cart = new Cart(user, new ArrayList<>());
+        Order order = generateOrder();
 
         user.getOrderId().add(order);
-        user.getCartId().add(cart4);
+        user.getCartId().add(cart);
         order.setUser(user);
-        order.setCartId(cart4);
+        order.setCartId(cart);
 
+        userDao.save(user);
         orderDao.save(order);
+        cartDao.save(cart);
 
         //When
         Order updatedOrder = orderDao.findById(order.getOrderId()).get();
@@ -191,38 +184,38 @@ public class OrderTestSuite {
         //Then
         assertEquals(BigDecimal.valueOf(300.15),orderDao.findById(updatedOrder.getOrderId()).get().getValue());
 
+        //Cleanup
+        cartDao.deleteById(cart.getCartId());
+        userDao.deleteById(user.getId());
         orderDao.deleteById(order.getOrderId());
     }
 
     @Test
     public void deleteOrder(){
         //Given
-        User user = User.builder()
-                .firstName("John")
-                .surname("Smith")
-                .deliveryAddress("ul. Kasztanowa 14F/58 03-197 Warszawa")
-                .login("john_smith5")
-                .password("john123456")
-                .build();
-        Cart cart6 = new Cart(user, new ArrayList<>());
-        Order order = Order.builder()
-                .deliveryMethod("courier")
-                .deliveryAddress(user.getDeliveryAddress())
-                .value(BigDecimal.valueOf(145))
-                .orderDateTime(LocalDateTime.now())
-                .build();
+        User user = generateUser();
+        Cart cart = new Cart(user, new ArrayList<>());
+        Order order = generateOrder();
 
         user.getOrderId().add(order);
-        user.getCartId().add(cart6);
+        user.getCartId().add(cart);
         order.setUser(user);
-        order.setCartId(cart6);
+        order.setCartId(cart);
 
+        userDao.save(user);
         orderDao.save(order);
+        cartDao.save(cart);
 
         //When
         orderDao.deleteById(order.getOrderId());
 
         //Then
         assertEquals(0, orderDao.findAll().size());
+        assertTrue(userDao.existsById(user.getId()));
+        assertTrue(cartDao.existsById(cart.getCartId()));
+
+        //Cleanup
+        cartDao.deleteById(cart.getCartId());
+        userDao.deleteById(user.getId());
     }
 }
