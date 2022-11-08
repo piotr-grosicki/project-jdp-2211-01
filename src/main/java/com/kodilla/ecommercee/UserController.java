@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1/users")
@@ -36,7 +35,7 @@ public class UserController {
     @PostMapping(value = "/generateToken")
     public ResponseEntity<String> generateToken(@RequestBody AuthDto authDto) {
 
-       return userService.generateToken(authDto);
+        return userService.generateToken(authDto);
 
     }
 }
