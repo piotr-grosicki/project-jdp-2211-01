@@ -44,10 +44,10 @@ public class OrderController {
                 .build();
     }
 
-    @GetMapping(value = "/{orderId}")
-    public OrderDto getOrder(@PathVariable long orderId) throws OrderNotFoundException {
+    @GetMapping(value = "/{id}")
+    public OrderDto getOrder(@PathVariable long id) throws OrderNotFoundException {
         return OrderDto.builder()
-                .id(orderId)
+                .id(id)
                 .deliveryAddress("Warszawska 21, 02-550 Warszawa")
                 .deliveryMethod("Courier GLS")
                 .orderData(LocalDateTime.now())
@@ -61,8 +61,8 @@ public class OrderController {
         return orderDto;
     }
 
-    @DeleteMapping("/{orderId}")
-    public void deleteOrder(@PathVariable int orderId) {
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable long id) {
     }
 
 

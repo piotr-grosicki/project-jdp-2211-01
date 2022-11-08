@@ -36,7 +36,7 @@ public class Order {
     private LocalDateTime orderDateTime;
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "card_Id")
+    @JoinColumn(name = "card_id")
     private Cart cart;
 
 
