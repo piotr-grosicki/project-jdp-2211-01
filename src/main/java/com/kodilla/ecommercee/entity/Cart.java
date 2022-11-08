@@ -32,13 +32,14 @@ public class Cart {
             joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
     )
-    private List<Product> listOfProducts;
+    private List<Product> products;
+
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
-    public Cart(User user, List<Product> listOfProducts) {
+    public Cart(User user, List<Product> products) {
         this.user = user;
-        this.listOfProducts = listOfProducts;
+        this.products = products;
     }
 }
