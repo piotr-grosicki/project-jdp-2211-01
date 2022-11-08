@@ -10,5 +10,6 @@ public interface OrderDao extends CrudRepository<Order, Long> {
     @Override
     Order save(Order order);
 
-    Optional<Order> findById(long id);
+    @Override
+    Optional<Order> findById(Long id);
 }

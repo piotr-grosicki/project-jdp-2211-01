@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{productId}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long productId) throws ProductNotFoundException {
+    public ResponseEntity<ProductDto> getProduct(@PathVariable long productId) throws ProductNotFoundException {
         Product product = productService.getProduct(productId);
         ProductDto productDto = mapper.mapToProductDto(product);
 
@@ -36,7 +36,7 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{productId}")
-    public ResponseEntity<ProductDto> deleteProduct(@PathVariable Long productId) throws ProductNotFoundException {
+    public ResponseEntity<ProductDto> deleteProduct(@PathVariable long productId) throws ProductNotFoundException {
         productService.removeProduct(productId);
 
         return ResponseEntity.ok().build();
@@ -45,7 +45,7 @@ public class ProductController {
     @PutMapping
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) throws ProductNotFoundException {
         Product product = mapper.mapToProduct(productDto);
-        Product updatedProduct = productService.addProduct(product);
+        Product updatedProduct = productService.saveProduct(product);
 
         ProductDto savedProduct = mapper.mapToProductDto(updatedProduct);
 
@@ -55,7 +55,7 @@ public class ProductController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
         Product product = mapper.mapToProduct(productDto);
-        Product addedProduct = productService.addProduct(product);
+        Product addedProduct = productService.saveProduct(product);
 
         ProductDto savedProduct = mapper.mapToProductDto(addedProduct);
 

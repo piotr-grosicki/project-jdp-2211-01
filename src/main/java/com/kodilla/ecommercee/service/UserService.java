@@ -25,7 +25,6 @@ public class UserService {
     private final UserMapper userMapper;
     private final UserDao userDao;
 
-
     public void createUser(UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
         userDao.save(user);

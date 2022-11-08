@@ -10,6 +10,6 @@ public interface CartDao extends CrudRepository<Cart, Long> {
     @Override
     Cart save(Cart cart);
 
-
-    Optional<Cart> findByCartId(long id);
+    @Override
+    Optional<Cart> findById(Long id);
 }
