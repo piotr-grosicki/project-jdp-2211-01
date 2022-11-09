@@ -56,7 +56,7 @@ public class ProductTestSuite {
     @Test
     public void addingNewProductWithGroup() {
 
-        User user = User.builder()
+        /*User user = User.builder()
                 .firstName("Test name")
                 .surname("Test surname")
                 .deliveryAddress("Test address")
@@ -69,15 +69,14 @@ public class ProductTestSuite {
                 .deliveryAddress("test")
                 .value(BigDecimal.valueOf(123))
                 .orderDateTime(LocalDateTime.now())
-                .build();
-
-        Group group = Group.builder().id(1L).build();
-
-        Cart cart = Cart.builder()
-                .cartId(1L)
                 .user(user)
-                .order(order)
                 .build();
+
+        */
+
+        Group group = new Group();
+
+        Cart cart = new Cart();
 
         Product product = Product.builder()
                 .name("Scissor")
@@ -85,12 +84,8 @@ public class ProductTestSuite {
                 .price(BigDecimal.valueOf(555))
                 .quantity(100)
                 .carts(Arrays.asList(cart))
+                .group(group)
                 .build();
-
-        cart.setListOfProducts(Arrays.asList(product));
-
-        //product.getCarts().add(cart);
-        product.setGroup(group);
 
         cart.setListOfProducts(Arrays.asList(product));
         group.setProductsList(Arrays.asList(product));
@@ -101,6 +96,9 @@ public class ProductTestSuite {
         Optional<Group> groupDb = groupDao.findById(group.getId());
         Optional<Cart> cartDb = cartDao.findByCartId(cart.getCartId());
 
+        System.out.println(productDb.get());
+        System.out.println(productDb.get().getDescription());
+
         assertTrue(productDb.isPresent());
         assertTrue(groupDb.isPresent());
         assertTrue(cartDb.isPresent());
@@ -109,9 +107,9 @@ public class ProductTestSuite {
         assertEquals(cart.getCartId(), cartDb.get().getCartId());
         assertEquals(group.getId(), groupDb.get().getId());
 
-        productDao.deleteById(product.getId());
-        groupDao.deleteById(group.getId());
-        cartDao.deleteById(cart.getCartId());
+       // productDao.deleteById(product.getId());
+        //groupDao.deleteById(group.getId());
+        //cartDao.deleteById(cart.getCartId());
     }
 
     @Test
