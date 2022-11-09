@@ -77,6 +77,5 @@ public class UserTestSuite {
         assertTrue(readCart.isPresent());
         orderDao.deleteById(orderId);
         cartDao.deleteById(cartId);
-
     }
 }
