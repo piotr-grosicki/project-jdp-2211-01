@@ -34,7 +34,7 @@ public class User {
     @Builder.Default
     @OneToMany(
             targetEntity = Order.class,
-            mappedBy = "user",
+            mappedBy = "userId",
             cascade = CascadeType.PERSIST,
             fetch = FetchType.EAGER)
     private List<Order> orderId = new ArrayList<>();
