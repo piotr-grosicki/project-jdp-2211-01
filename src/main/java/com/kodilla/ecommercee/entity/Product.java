@@ -25,13 +25,13 @@ public class Product {
     private Long id;
 
     @NonNull
-    @NotBlank
+    //@NotBlank
     @Column(length = 100)
     @Length(min = 2, max = 100)
     private String name;
 
     @NonNull
-    @NotBlank
+   // @NotBlank
     @Column(length = 1000)
     @Length(min = 2, max = 1000)
     private String description;

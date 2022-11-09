@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity(name = "groupss")
-@Builder
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

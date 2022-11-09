@@ -10,18 +10,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Entity(name= "carts")
 @Builder
+@Entity(name = "carts")
 public class Cart {
 
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name="cart_id", unique = true)
+    @Column(name = "cart_id", unique = true)
     private long cartId;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id" )
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
