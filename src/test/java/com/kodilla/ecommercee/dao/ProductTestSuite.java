@@ -55,7 +55,11 @@ public class ProductTestSuite {
     @Test
     public void addingNewProductWithGroup() {
 
-        Group group = new Group();
+        Group group = Group.builder()
+                .name("Group test")
+                .description("Description test")
+                .build();
+
         Cart cart = new Cart();
 
         Product product = Product.builder()
