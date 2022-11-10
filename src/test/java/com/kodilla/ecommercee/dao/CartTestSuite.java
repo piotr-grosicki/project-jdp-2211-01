@@ -58,7 +58,10 @@ public class CartTestSuite {
                 .orderDateTime(LocalDateTime.now())
                 .build();
 
-        Group group = new Group();
+        Group group = Group.builder()
+                .name("test")
+                .description("test2")
+                .build();
 
         Product product = new Product();
         product.setName("Name");
