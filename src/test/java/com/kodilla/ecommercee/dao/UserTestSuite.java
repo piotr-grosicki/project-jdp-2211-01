@@ -43,7 +43,7 @@ public class UserTestSuite {
                 .login("Test login")
                 .password("Test password")
                 .build();
-
+        
         Order order = Order.builder()
                 .deliveryMethod("test")
                 .deliveryAddress("test")
