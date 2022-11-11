@@ -41,6 +41,31 @@ Example :
 "description": 223,
 "Price": 100
 }
+   2. User Controller:
+      User Controller has the following endpoints:
+
+POST /v1/users - create new user, request body JSON format required
+
+Example: 
+
+      {
+      "firstName":"Test name",
+      "surname":"Test surname",
+      "deliveryAddress":"Test address",
+      "login":"Test login",
+      "password":"Test password"    
+      }
+PATCH /v1/{userdId}/blockUser - block existing user, userId REQUIRED path parameters Long
+
+POST /v1/generateToken - generates token for user after passing correct login/password,
+request body JSON format required
+
+Example: 
+
+      {
+      "login":"Test login",
+      "password":"Test password"
+      }
 
 6. You can use the project as a background for online store. To develop the architecture of application, we can add tracking tools to collect data about our users and prepare personalized offers for out customers.
 
