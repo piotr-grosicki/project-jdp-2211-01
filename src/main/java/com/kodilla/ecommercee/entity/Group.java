@@ -26,6 +26,7 @@ public class Group {
     private String description;
 
     @OneToMany(
+            targetEntity = Product.class,
             mappedBy = "group",
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY

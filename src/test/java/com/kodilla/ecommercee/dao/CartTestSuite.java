@@ -63,8 +63,8 @@ public class CartTestSuite {
                 .build();
 
         Group group = Group.builder()
-                .name("test")
-                .description("test2")
+                .name("Group test")
+                .description("Description test")
                 .build();
 
         Product product = new Product();
@@ -87,7 +87,7 @@ public class CartTestSuite {
         Cart cart = new Cart();
         cart.setUser(user);
         cart.setOrder(order);
-        cart.setProducts(products);
+        cart.setListOfProducts(products);
 
         cartDao.save(cart);
 
@@ -108,7 +108,7 @@ public class CartTestSuite {
         Optional<Product> readProduct2 = productDao.findById(product2Id);
 
         assertTrue(readCart.isPresent());
-        List<Product> readProducts = readCart.get().getProducts();
+        List<Product> readProducts = readCart.get().getListOfProducts();
         assertEquals(3, readProducts.size());
         cartDao.deleteById(cartId);
         assertTrue(readUser.isPresent());

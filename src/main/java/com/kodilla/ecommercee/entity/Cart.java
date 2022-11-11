@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 @Entity(name = "carts")
 public class Cart {
 
@@ -26,20 +24,20 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "product_cart",
             joinColumns = {@JoinColumn(name = "cart_id", referencedColumnName = "cart_id")},
             inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
     )
-    private List<Product> products;
+    private List<Product> listOfProducts;
+
+    public Cart(User user, List<Product> listOfProducts) {
+        this.user = user;
+        this.listOfProducts = listOfProducts;
+    }
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
-
-    public Cart(User user, List<Product> products) {
-        this.user = user;
-        this.products = products;
-    }
 }

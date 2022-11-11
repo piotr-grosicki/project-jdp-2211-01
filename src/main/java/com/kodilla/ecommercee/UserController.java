@@ -1,41 +1,63 @@
 package com.kodilla.ecommercee;
 
-
-import com.kodilla.ecommercee.domain.AuthDto;
 import com.kodilla.ecommercee.domain.UserDto;
-import com.kodilla.ecommercee.exception.UserNotFoundException;
-import com.kodilla.ecommercee.service.UserService;
-import lombok.AllArgsConstructor;
+import com.kodilla.ecommercee.entity.User;
+import com.kodilla.ecommercee.mapper.UserMapper;
+import com.kodilla.ecommercee.repository.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
 
-@AllArgsConstructor
+
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserDao userDao;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) {
-        userService.createUser(userDto);
-        return ResponseEntity.ok(null);
+        User user = userMapper.mapToUser(userDto);
+        userDao.save(user);
+        return ResponseEntity.ok().build();
     }
 
 
     @PatchMapping(value = "/{userID}/blockUser")
-    public ResponseEntity<Void> blockUser(@PathVariable long userID) throws UserNotFoundException {
-        userService.blockUser(userID);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<Boolean> blockUser(@PathVariable long userID) {
+        User user = userDao.findById(userID).orElse(null);
+        if(user==null){
+            return ResponseEntity.ok().build();
+        }
+        user.setActive(false);
+        userDao.save(user);
+        return ResponseEntity.ok(true);
+
+
+
     }
 
+    @PatchMapping(value = "/{userID}/generateKey")
+    public UserDto generateToken(@PathVariable long userID) {
 
-    @PostMapping(value = "/generateToken")
-    public ResponseEntity<String> generateToken(@RequestBody AuthDto authDto) {
-
-        return userService.generateToken(authDto);
+        String randomToken = UUID.randomUUID().toString();
+        return UserDto.builder()
+                .id(userID)
+                .firstName("Test name")
+                .surname("Test surname")
+                .deliveryAddress("Test address")
+                .login("Test login")
+                .password("Test password")
+                .key(randomToken)
+                .isActive(true)
+                .build();
 
     }
+
 }

@@ -16,7 +16,9 @@ public class UserMapper {
                 .login(userDto.getLogin())
                 .password(userDto.getPassword())
                 .isActive(userDto.isActive())
+
                 .build();
+
     }
 
     public UserDto mapToUserDto(final User user) {
@@ -29,5 +31,6 @@ public class UserMapper {
                 .password(user.getPassword())
                 .isActive(user.isActive())
                 .build();
+
     }
 }

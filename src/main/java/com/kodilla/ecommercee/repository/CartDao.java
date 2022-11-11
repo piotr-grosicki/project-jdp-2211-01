@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface CartDao extends CrudRepository<Cart, Long> {
+public interface CartDao extends CrudRepository<Cart,Long> {
 
     @Override
     Cart save(Cart cart);
