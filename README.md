@@ -1,6 +1,7 @@
-1. Ecommerce is a  REST online store project, which is using mySQL as a database source, build with Spring and Hibernate frameworks.
+## Ecommercee Application ##
+1. Ecommercee is a ***REST*** online store project, which is using ***MySQL*** as a database source, build with ***Spring Boot*** and ***Hibernate*** frameworks.
 2. <screens>,
-3. To compile project, we need JVM version 1.8 with SpringBoot framework version 2.1.18.RELEASE
+3. To compile project, we need JVM version **1.8** with SpringBoot framework version **2.1.18.RELEASE**
 4. To build project we have to use command ’ ./gradlew build ’
 5. Endpoints:
    1. Product Controller:
