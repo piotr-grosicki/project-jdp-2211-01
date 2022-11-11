@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -30,9 +31,9 @@ public class OrderTestSuite {
     @Autowired
     private CartDao cartDao;
 
-    private User generateUser(){
+    public User generateUser(){
         Random random = new Random();
-        int number = random.nextInt();
+        int number = random.nextInt()*31;
         return User.builder()
                 .firstName("John")
                 .surname("Smith")
@@ -42,7 +43,7 @@ public class OrderTestSuite {
                 .build();
     }
 
-    private Order generateOrder(){
+    public Order generateOrder(){
         return Order.builder()
                 .deliveryMethod("courier")
                 .deliveryAddress("delivery address")
@@ -51,13 +52,14 @@ public class OrderTestSuite {
                 .build();
     }
 
+    @Transactional
     @Test
     public void getOrders(){
         //Given
-        User user1 = generateUser();
-        User user2 = generateUser();
         Cart cart1 = new Cart();
         Cart cart2 = new Cart();
+        User user1 = generateUser();
+        User user2 = generateUser();
         Order order1 = generateOrder();
         Order order2 = generateOrder();
 
@@ -72,6 +74,10 @@ public class OrderTestSuite {
 
         //Then
         assertEquals(2, orderDao.findAll().size());
+        assertTrue(userDao.findById(user1.getId()).isPresent());
+        assertTrue(userDao.findById(user2.getId()).isPresent());
+        assertTrue(cartDao.findById(cart1.getCartId()).isPresent());
+        assertTrue(cartDao.findById(cart2.getCartId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user1.getId());
@@ -82,11 +88,12 @@ public class OrderTestSuite {
         cartDao.deleteById(cart2.getCartId());
     }
 
+    @Transactional
     @Test
     public void createOrder(){
         //Given
-        User user = generateUser();
         Cart cart = new Cart();
+        User user = generateUser();
         Order order = generateOrder();
 
         order.setUserId(user);
@@ -98,6 +105,8 @@ public class OrderTestSuite {
         //Then
         assertEquals(1, orderDao.count());
         assertTrue(orderDao.findById(order.getOrderId()).isPresent());
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
@@ -105,11 +114,12 @@ public class OrderTestSuite {
         cartDao.deleteById(cart.getCartId());
     }
 
+    @Transactional
     @Test
     public void getOrder(){
         //Given
-        User user = generateUser();
         Cart cart = new Cart();
+        User user = generateUser();
         Order order = generateOrder();
 
         order.setUserId(user);
@@ -122,6 +132,8 @@ public class OrderTestSuite {
         boolean result=false;
         result = orderDao.findById(order.getOrderId()).isPresent();
         assertTrue(result);
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
@@ -129,11 +141,12 @@ public class OrderTestSuite {
         cartDao.deleteById(cart.getCartId());
     }
 
+    @Transactional
     @Test
     public void updateOrder(){
         //Given
-        User user = generateUser();
         Cart cart = new Cart();
+        User user = generateUser();
         Order order = generateOrder();
 
         order.setUserId(user);
@@ -148,6 +161,8 @@ public class OrderTestSuite {
         Optional<Order> updatedOrder = orderDao.findById(order.getOrderId());
         assertTrue(updatedOrder.isPresent());
         assertEquals(BigDecimal.valueOf(300.15),updatedOrder.get().getValue());
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
@@ -155,11 +170,12 @@ public class OrderTestSuite {
         cartDao.deleteById(cart.getCartId());
     }
 
+    @Transactional
     @Test
     public void deleteOrder(){
         //Given
-        User user = generateUser();
         Cart cart = new Cart();
+        User user = generateUser();
         Order order = generateOrder();
 
         order.setUserId(user);
@@ -171,8 +187,8 @@ public class OrderTestSuite {
 
         //Then
         assertEquals(0, orderDao.findAll().size());
-        assertTrue(userDao.existsById(user.getId()));
-        assertTrue(cartDao.existsById(cart.getCartId()));
+        assertTrue(userDao.findById(user.getId()).isPresent());
+        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
