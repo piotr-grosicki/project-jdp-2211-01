@@ -1,4 +1,4 @@
-package com.kodilla.ecommercee.entities;
+package com.kodilla.ecommercee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
