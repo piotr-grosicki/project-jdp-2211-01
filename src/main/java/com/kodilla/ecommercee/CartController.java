@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/carts")
-@CrossOrigin("*")
 public class CartController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -37,25 +36,25 @@ public class CartController {
                         .build());
     }
 
-    @PutMapping
-    CartDto addProductToCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
+    @PutMapping(value = "/{id}/{productId}")
+    CartDto addProductToCart(@PathVariable long id, @PathVariable long productId) throws CartNotFoundException, ProductNotFoundException {
         return CartDto.builder()
-                .id(1)
-                .userId(12)
+                .id(id)
+                .userId(12L)
+                .listOfProducts(Arrays.asList(ProductDto.builder().id(productId).name("Test product").build()))
+                .build();
+    }
+
+    @DeleteMapping(value = "/{id}/{productId}")
+    CartDto removeProductFromCart(@PathVariable long id, @PathVariable long productId) throws CartNotFoundException, ProductNotFoundException {
+        return CartDto.builder()
+                .id(id)
+                .userId(122L)
                 .listOfProducts(Arrays.asList(ProductDto.builder().id(3L).name("Test product").build()))
                 .build();
     }
 
-    @DeleteMapping
-    CartDto removeProductFromCart(@RequestParam long cartId, @RequestParam long productId) throws CartNotFoundException, ProductNotFoundException {
-        return CartDto.builder()
-                .id(2)
-                .userId(122)
-                .listOfProducts(Arrays.asList(ProductDto.builder().id(3L).name("Test product").build()))
-                .build();
-    }
-
-    @GetMapping(value = "/order")
-    void createOrder(@RequestParam long cartId) throws CartNotFoundException {
+    @GetMapping(value = "/{id}/order")
+    void createOrder(@RequestParam long id) throws CartNotFoundException {
     }
 }
