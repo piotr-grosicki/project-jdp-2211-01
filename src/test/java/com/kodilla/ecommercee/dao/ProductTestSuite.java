@@ -1,6 +1,8 @@
 package com.kodilla.ecommercee.dao;
 
-import com.kodilla.ecommercee.entity.*;
+import com.kodilla.ecommercee.entity.Cart;
+import com.kodilla.ecommercee.entity.Group;
+import com.kodilla.ecommercee.entity.Product;
 import com.kodilla.ecommercee.repository.CartDao;
 import com.kodilla.ecommercee.repository.GroupDao;
 import com.kodilla.ecommercee.repository.ProductDao;
@@ -11,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -75,7 +77,7 @@ public class ProductTestSuite {
 
         Optional<Product> productDb = productDao.findById(product.getId());
         Optional<Group> groupDb = groupDao.findById(group.getId());
-        Optional<Cart> cartDb = cartDao.findByCartId(cart.getCartId());
+        Optional<Cart> cartDb = cartDao.findById(cart.getId());
 
 
         assertTrue(productDb.isPresent());
@@ -83,12 +85,12 @@ public class ProductTestSuite {
         assertTrue(cartDb.isPresent());
 
         assertEquals(product.getId(), productDb.get().getId());
-        assertEquals(cart.getCartId(), cartDb.get().getCartId());
+        assertEquals(cart.getId(), cartDb.get().getId());
         assertEquals(group.getId(), groupDb.get().getId());
 
-       productDao.deleteById(productDb.get().getId());
-       groupDao.deleteById(groupDb.get().getId());
-       cartDao.deleteById(cartDb.get().getCartId());
+        productDao.deleteById(productDb.get().getId());
+        groupDao.deleteById(groupDb.get().getId());
+        cartDao.deleteById(cartDb.get().getId());
     }
 }
 

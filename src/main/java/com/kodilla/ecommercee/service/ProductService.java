@@ -23,14 +23,12 @@ public class ProductService {
         return productDao.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
-    public Product addProduct(Product product) {
+    public Product saveProduct(Product product) {
         return productDao.save(product);
     }
 
-    public Product removeProduct(Long id) throws ProductNotFoundException {
+    public void removeProduct(Long id) throws ProductNotFoundException {
         Optional<Product> product = productDao.findById(id);
         productDao.delete(product.orElseThrow(ProductNotFoundException::new));
-
-        return product.get();
     }
 }
