@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.service;
 
-import com.kodilla.ecommercee.entities.Order;
+import com.kodilla.ecommercee.entity.Order;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.repository.OrderDao;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.entities.Order;
+import com.kodilla.ecommercee.entity.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +16,8 @@ public class OrderMapper {
                 .deliveryMethod(orderDto.getDeliveryMethod())
                 .orderDateTime(orderDto.getOrderDateTime())
                 .value(orderDto.getValue())
+                .user(orderDto.getUser())
+                .cartId(orderDto.getCartId())
                 .build();
     }
 
@@ -26,6 +28,8 @@ public class OrderMapper {
                 .deliveryMethod(order.getDeliveryMethod())
                 .orderDateTime(order.getOrderDateTime())
                 .value(order.getValue())
+                .user(order.getUser())
+                .cartId(order.getCartId())
                 .build();
     }
 
