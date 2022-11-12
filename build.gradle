@@ -30,6 +30,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation('io.jsonwebtoken:jjwt-api:0.11.5')
     implementation('com.auth0:java-jwt:4.2.1')
+    implementation('io.springfox:springfox-swagger2:2.9.2')
+    implementation('io.springfox:springfox-swagger-ui:2.9.2')
+
 
     runtimeOnly('mysql:mysql-connector-java')
     runtimeOnly('com.h2database:h2')
