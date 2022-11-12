@@ -63,10 +63,10 @@ public class OrderTestSuite {
         Order order1 = generateOrder();
         Order order2 = generateOrder();
 
-        order1.setUserId(user1);
-        order1.setCartId(cart1);
-        order2.setUserId(user2);
-        order2.setCartId(cart2);
+        order1.setUser(user1);
+        order1.setCart(cart1);
+        order2.setUser(user2);
+        order2.setCart(cart2);
 
         //When
         orderDao.save(order1);
@@ -76,16 +76,16 @@ public class OrderTestSuite {
         assertEquals(2, orderDao.findAll().size());
         assertTrue(userDao.findById(user1.getId()).isPresent());
         assertTrue(userDao.findById(user2.getId()).isPresent());
-        assertTrue(cartDao.findById(cart1.getCartId()).isPresent());
-        assertTrue(cartDao.findById(cart2.getCartId()).isPresent());
+        assertTrue(cartDao.findById(cart1.getId()).isPresent());
+        assertTrue(cartDao.findById(cart2.getId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user1.getId());
         userDao.deleteById(user2.getId());
-        orderDao.deleteById(order1.getOrderId());
-        orderDao.deleteById(order2.getOrderId());
-        cartDao.deleteById(cart1.getCartId());
-        cartDao.deleteById(cart2.getCartId());
+        orderDao.deleteById(order1.getId());
+        orderDao.deleteById(order2.getId());
+        cartDao.deleteById(cart1.getId());
+        cartDao.deleteById(cart2.getId());
     }
 
     @Transactional
@@ -96,22 +96,22 @@ public class OrderTestSuite {
         User user = generateUser();
         Order order = generateOrder();
 
-        order.setUserId(user);
-        order.setCartId(cart);
+        order.setUser(user);
+        order.setCart(cart);
 
         //When
         orderDao.save(order);
 
         //Then
         assertEquals(1, orderDao.count());
-        assertTrue(orderDao.findById(order.getOrderId()).isPresent());
+        assertTrue(orderDao.findById(order.getId()).isPresent());
         assertTrue(userDao.findById(user.getId()).isPresent());
-        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
+        assertTrue(cartDao.findById(cart.getId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
-        orderDao.deleteById(order.getOrderId());
-        cartDao.deleteById(cart.getCartId());
+        orderDao.deleteById(order.getId());
+        cartDao.deleteById(cart.getId());
     }
 
     @Transactional
@@ -122,23 +122,23 @@ public class OrderTestSuite {
         User user = generateUser();
         Order order = generateOrder();
 
-        order.setUserId(user);
-        order.setCartId(cart);
+        order.setUser(user);
+        order.setCart(cart);
 
         //When
         orderDao.save(order);
 
         //Then
         boolean result=false;
-        result = orderDao.findById(order.getOrderId()).isPresent();
+        result = orderDao.findById(order.getId()).isPresent();
         assertTrue(result);
         assertTrue(userDao.findById(user.getId()).isPresent());
-        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
+        assertTrue(cartDao.findById(cart.getId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
-        orderDao.deleteById(order.getOrderId());
-        cartDao.deleteById(cart.getCartId());
+        orderDao.deleteById(order.getId());
+        cartDao.deleteById(cart.getId());
     }
 
     @Transactional
@@ -149,8 +149,8 @@ public class OrderTestSuite {
         User user = generateUser();
         Order order = generateOrder();
 
-        order.setUserId(user);
-        order.setCartId(cart);
+        order.setUser(user);
+        order.setCart(cart);
         orderDao.save(order);
 
         //When
@@ -158,16 +158,16 @@ public class OrderTestSuite {
         orderDao.save(order);
 
         //Then
-        Optional<Order> updatedOrder = orderDao.findById(order.getOrderId());
+        Optional<Order> updatedOrder = orderDao.findById(order.getId());
         assertTrue(updatedOrder.isPresent());
         assertEquals(BigDecimal.valueOf(300.15),updatedOrder.get().getValue());
         assertTrue(userDao.findById(user.getId()).isPresent());
-        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
+        assertTrue(cartDao.findById(cart.getId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
-        orderDao.deleteById(order.getOrderId());
-        cartDao.deleteById(cart.getCartId());
+        orderDao.deleteById(order.getId());
+        cartDao.deleteById(cart.getId());
     }
 
     @Transactional
@@ -178,20 +178,20 @@ public class OrderTestSuite {
         User user = generateUser();
         Order order = generateOrder();
 
-        order.setUserId(user);
-        order.setCartId(cart);
+        order.setUser(user);
+        order.setCart(cart);
         orderDao.save(order);
 
         //When
-        orderDao.deleteById(order.getOrderId());
+        orderDao.deleteById(order.getId());
 
         //Then
         assertEquals(0, orderDao.findAll().size());
         assertTrue(userDao.findById(user.getId()).isPresent());
-        assertTrue(cartDao.findById(cart.getCartId()).isPresent());
+        assertTrue(cartDao.findById(cart.getId()).isPresent());
 
         //Cleanup
         userDao.deleteById(user.getId());
-        cartDao.deleteById(cart.getCartId());
+        cartDao.deleteById(cart.getId());
     }
 }
