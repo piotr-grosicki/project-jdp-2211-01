@@ -59,8 +59,8 @@ public class CartTestSuite {
                 .build();
 
         Group group = Group.builder()
-                .name("test")
-                .description("test2")
+                .name("Group test")
+                .description("Description test")
                 .build();
 
         Product product = new Product();

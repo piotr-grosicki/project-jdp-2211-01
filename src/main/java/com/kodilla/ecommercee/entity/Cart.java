@@ -24,7 +24,6 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(
             name = "product_cart",

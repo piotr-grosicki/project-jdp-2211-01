@@ -8,15 +8,16 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 @Setter
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "`group`")
 @Table(name = "`group`")
 public class Group {
     @Id
-    @GeneratedValue
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
@@ -31,6 +32,4 @@ public class Group {
             fetch = FetchType.LAZY
     )
     private List<Product> products;
-
-
 }

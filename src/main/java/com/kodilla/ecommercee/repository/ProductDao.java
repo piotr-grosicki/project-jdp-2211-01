@@ -10,4 +10,9 @@ public interface ProductDao extends CrudRepository<Product, Long> {
     List<Product> findAll();
 
     Optional<Product> findById(Long id);
+
+    @Override
+    Product save(Product product);
 }
+
+
