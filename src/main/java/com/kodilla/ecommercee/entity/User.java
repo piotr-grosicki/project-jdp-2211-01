@@ -5,60 +5,51 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
+@Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
-@Table(name = "USERS")
-@Entity
 public class User {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID", unique = true)
-    private long id;
+    @EqualsAndHashCode.Include
+    private Long id;
 
-    @Builder.Default
     @OneToMany(
-            targetEntity = Cart.class,
             mappedBy = "user",
             cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY)
-    private List<Cart> cartId = new ArrayList<>();
-
     @Builder.Default
-    @OneToMany(
-            targetEntity = Order.class,
-            mappedBy = "userId",
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER)
-    private List<Order> orderId = new ArrayList<>();
+    private List<Cart> carts = new ArrayList<>();
 
-    @Column(name = "FIRST_NAME")
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.PERSIST,
+            fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Order> orders = new LinkedList<>();
+
     private String firstName;
 
-    @Column(name = "SURNAME")
     private String surname;
 
-    @Column(name = "DELIVERY_ADDRESS")
     private String deliveryAddress;
 
-    @Column(name = "LOGIN", unique = true)
     @NotNull
+    @Column(unique = true)
     private String login;
 
-    @Column(name = "PASSWORD")
     @NotNull
     private String password;
 
-    @Column(name = "IS_ACTIVE")
     @Builder.Default
     private boolean isActive = true;
-
-
 }

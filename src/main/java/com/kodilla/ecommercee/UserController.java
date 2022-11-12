@@ -34,8 +34,6 @@ public class UserController {
 
     @PostMapping(value = "/generateToken")
     public ResponseEntity<String> generateToken(@RequestBody AuthDto authDto) {
-
         return userService.generateToken(authDto);
-
     }
 }

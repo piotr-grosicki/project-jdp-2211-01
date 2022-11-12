@@ -1,9 +1,6 @@
 package com.kodilla.ecommercee.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,40 +8,39 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Orders")
-@Data
-@AllArgsConstructor
+@Table(name = "`order`")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    @Column(name = "Id", unique = true)
-    private long orderId;
+    @EqualsAndHashCode.Include
+    private Long id;
 
-    @Column(name = "Delivery_method")
     @NotNull
     private String deliveryMethod;
 
-    @Column(name = "Delivery_address")
     @NotNull
     private String deliveryAddress;
 
-    @Column(name = "Value")
     @NotNull
+    @Column(name = "`value`")
     private BigDecimal value;
 
-    @Column(name = "Order_Date_Time")
     @NotNull
     private LocalDateTime orderDateTime;
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "Card_Id")
-    private Cart cartId;
+    @JoinColumn(name = "card_id")
+    private Cart cart;
+
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User userId;
+    @JoinColumn(name = "user_id")
+    private User user;
 }
