@@ -1,47 +1,51 @@
 package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.GroupDto;
+import com.kodilla.ecommercee.entity.Group;
 import com.kodilla.ecommercee.exception.GroupNotFoundException;
+import com.kodilla.ecommercee.mapper.GroupMapper;
+import com.kodilla.ecommercee.service.GroupService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/groups")
+@RequiredArgsConstructor
 public class GroupController {
+    private final GroupService groupService;
+    private final GroupMapper groupMapper;
 
     @GetMapping
-    public List<GroupDto> getGroups() {
-        return Arrays.asList(GroupDto.builder()
-                        .id(1l)
-                        .name("Test group")
-                        .description("Group used only for test")
-                        .build(),
-                GroupDto.builder()
-                        .id(2l)
-                        .name("Test group 2")
-                        .description("Group used only for test")
-                        .build());
+    public ResponseEntity<List<GroupDto>> getGroups() {
+        return ResponseEntity.ok(groupService.getAll().stream()
+                .map(groupMapper::mapToDto).collect(Collectors.toList())
+        );
     }
 
-    @GetMapping(value = "/{groupId}")
-    public GroupDto getGroup(@PathVariable long groupId) throws GroupNotFoundException {
-        return GroupDto.builder()
-                .id(groupId)
-                .name("Test group")
-                .description("Group used only for test")
-                .build();
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<GroupDto> getGroup(@PathVariable Long id) throws GroupNotFoundException {
+        return ResponseEntity.ok(
+                groupMapper.mapToDto(
+                        groupService.getGroup(id)
+                )
+        );
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GroupDto updateGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
-        return groupDto;
+    public ResponseEntity<Void> updateGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
+        groupService.update(groupMapper.mapToEntity(groupDto));
+        return ResponseEntity.ok(null);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GroupDto createGroup(@RequestBody GroupDto groupDto) {
-        return groupDto;
+    public ResponseEntity<GroupDto> createGroup(@RequestBody GroupDto groupDto) {
+        Group group = groupMapper.mapToEntity(groupDto);
+        GroupDto savedGroup = groupMapper.mapToDto(groupService.create(group));
+        return ResponseEntity.ok(savedGroup);
     }
 }

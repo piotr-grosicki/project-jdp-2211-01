@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ProductDto {
     private Long id;
@@ -17,4 +17,5 @@ public class ProductDto {
     private String description;
     private Integer quantity;
     private BigDecimal price;
+    private GroupDto group;
 }
