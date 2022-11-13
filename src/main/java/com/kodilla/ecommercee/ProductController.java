@@ -5,6 +5,7 @@ import com.kodilla.ecommercee.entity.Product;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.ProductService;
+import com.kodilla.ecommercee.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,11 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper mapper;
 
+    private final UserService userService;
+
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() {
+        userService.authorize();
         List<Product> productsList = productService.getListOfProducts();
         List<ProductDto> productDtoList = mapper.mapToProductsDtoList(productsList);
 

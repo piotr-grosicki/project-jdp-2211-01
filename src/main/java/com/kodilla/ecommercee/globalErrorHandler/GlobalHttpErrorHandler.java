@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.globalErrorHandler;
 
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,5 +20,10 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
         return new ResponseEntity<>("User doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<Object> handleJwtException(JwtException exception) {
+        return new ResponseEntity<>("Unauthorized access", HttpStatus.UNAUTHORIZED);
     }
 }

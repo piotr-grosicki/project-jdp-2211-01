@@ -17,5 +17,5 @@ spring:
 application:
   security:
     jwt:
-      expired-time: 3600
+      expired-time: 1
       secret: EWtQ,dsBAMWT5Qqy0X%8A]yPmmiyCHe_HG8Ub#]LA-+HWY^g,-LYC^YvYwQrG:57Eu,qk>cN)@Xun9>HowpDBx0#J1ds>KRnLyvD
