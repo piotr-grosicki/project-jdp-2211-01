@@ -5,6 +5,7 @@ import com.kodilla.ecommercee.entity.Group;
 import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.GroupService;
+import com.kodilla.ecommercee.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/v1/groups")
 @RequiredArgsConstructor
 public class GroupController {
+    private final SecurityService securityService;
     private final GroupService groupService;
     private final GroupMapper groupMapper;
 
@@ -38,12 +40,14 @@ public class GroupController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateGroup(@RequestBody GroupDto groupDto) throws GroupNotFoundException {
+        securityService.authorize();
         groupService.update(groupMapper.mapToEntity(groupDto));
         return ResponseEntity.ok(null);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GroupDto> createGroup(@RequestBody GroupDto groupDto) {
+        securityService.authorize();
         Group group = groupMapper.mapToEntity(groupDto);
         GroupDto savedGroup = groupMapper.mapToDto(groupService.create(group));
         return ResponseEntity.ok(savedGroup);
