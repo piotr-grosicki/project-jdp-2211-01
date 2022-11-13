@@ -1,9 +1,6 @@
-package com.kodilla.ecommercee.entities;
+package com.kodilla.ecommercee.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,11 +10,14 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "Group")
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity(name = "`group`")
+@Table(name = "`group`")
 public class Group {
     @Id
-    @GeneratedValue
-    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
@@ -28,11 +28,8 @@ public class Group {
 
     @OneToMany(
             mappedBy = "group",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.PERSIST,
             fetch = FetchType.LAZY
     )
-    private List<Product> productsList;
-
-
+    private List<Product> products;
 }
-

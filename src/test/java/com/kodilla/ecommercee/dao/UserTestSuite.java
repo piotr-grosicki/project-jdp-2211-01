@@ -1,8 +1,8 @@
 package com.kodilla.ecommercee.dao;
 
-import com.kodilla.ecommercee.entities.Cart;
-import com.kodilla.ecommercee.entities.Order;
-import com.kodilla.ecommercee.entities.User;
+import com.kodilla.ecommercee.entity.Cart;
+import com.kodilla.ecommercee.entity.Order;
+import com.kodilla.ecommercee.entity.User;
 import com.kodilla.ecommercee.repository.CartDao;
 import com.kodilla.ecommercee.repository.OrderDao;
 import com.kodilla.ecommercee.repository.UserDao;
@@ -32,7 +32,6 @@ public class UserTestSuite {
     private CartDao cartDao;
 
 
-
     @Test
     public void testSaveUser() {
 
@@ -44,7 +43,7 @@ public class UserTestSuite {
                 .login("Test login")
                 .password("Test password")
                 .build();
-
+        
         Order order = Order.builder()
                 .deliveryMethod("test")
                 .deliveryAddress("test")
@@ -55,8 +54,8 @@ public class UserTestSuite {
         Cart cart = new Cart();
 
         //When
-        user.getOrderId().add(order);
-        user.getCartId().add(cart);
+        user.getOrders().add(order);
+        user.getCarts().add(cart);
 
         userDao.save(user);
 
@@ -64,11 +63,11 @@ public class UserTestSuite {
         Long id = user.getId();
         Optional<User> readUser = userDao.findById(id);
 
-        Long orderId = order.getOrderId();
+        Long orderId = order.getId();
         Optional<Order> readOrder = orderDao.findById(orderId);
 
-        Long cartId = cart.getCartId();
-        Optional<Cart> readCart = cartDao.findByCartId(cartId);
+        Long cartId = cart.getId();
+        Optional<Cart> readCart = cartDao.findById(cartId);
 
         assertTrue(readUser.isPresent());
 
@@ -78,6 +77,5 @@ public class UserTestSuite {
         assertTrue(readCart.isPresent());
         orderDao.deleteById(orderId);
         cartDao.deleteById(cartId);
-
     }
 }
