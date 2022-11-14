@@ -10,4 +10,6 @@ public interface UserDao extends CrudRepository<User, Long> {
     User save(User user);
 
     Optional<User> findByLogin(String login);
+
+    Optional<User> findById(long id);
 }

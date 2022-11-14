@@ -5,6 +5,8 @@ import com.kodilla.ecommercee.entity.Product;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.ProductService;
+import com.kodilla.ecommercee.service.SecurityService;
+import com.kodilla.ecommercee.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper mapper;
+
+    private final SecurityService securityService;
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() {
@@ -37,13 +41,15 @@ public class ProductController {
 
     @DeleteMapping(value = "/{productId}")
     public ResponseEntity<ProductDto> deleteProduct(@PathVariable long productId) throws ProductNotFoundException {
+        securityService.authorize();
         productService.removeProduct(productId);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) throws ProductNotFoundException {
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+        securityService.authorize();
         Product product = mapper.mapToProduct(productDto);
         Product updatedProduct = productService.saveProduct(product);
 
@@ -54,6 +60,7 @@ public class ProductController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+        securityService.authorize();
         Product product = mapper.mapToProduct(productDto);
         Product addedProduct = productService.saveProduct(product);
 

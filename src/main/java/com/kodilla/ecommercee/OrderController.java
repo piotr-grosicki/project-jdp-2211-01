@@ -1,69 +1,60 @@
 package com.kodilla.ecommercee;
 
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.entity.Order;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.OrderService;
+import com.kodilla.ecommercee.service.SecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/orders")
+@RequiredArgsConstructor
 public class OrderController {
+    private final SecurityService securityService;
+    private final OrderMapper orderMapper;
+    private final OrderService orderService;
 
     @GetMapping
-    public List<OrderDto> getOrders() {
-        return Arrays.asList(OrderDto.builder()
-                        .id(1L)
-                        .deliveryAddress("ul.Warszawska 21, 02-550 Warszawa")
-                        .deliveryMethod("Courier GLS")
-                        .orderData(LocalDateTime.now())
-                        .value(new BigDecimal(200L))
-                        .build(),
-
-                OrderDto.builder()
-                        .id(2L)
-                        .deliveryAddress("ul.Wrocławska 22, 03-220 Wrocław")
-                        .deliveryMethod("Courier UPS")
-                        .orderData(LocalDateTime.now())
-                        .value(new BigDecimal(200L))
-                        .build());
+    public ResponseEntity <List<OrderDto>> getOrders() {
+        List<Order> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orderMapper.mapToOrderDtoList(orders));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
-        return OrderDto.builder()
-                .id(3L)
-                .deliveryAddress("ul.Poznańska 22, 03-220 Poznań")
-                .deliveryMethod("Courier UPS")
-                .orderData(LocalDateTime.now())
-                .value(new BigDecimal(200L))
-                .build();
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException, CartNotFoundException {
+        securityService.authorize();
+        Order order = orderMapper.mapToOrder(orderDto);
+        Order savedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
     @GetMapping(value = "/{id}")
-    public OrderDto getOrder(@PathVariable long id) throws OrderNotFoundException {
-        return OrderDto.builder()
-                .id(id)
-                .deliveryAddress("Warszawska 21, 02-550 Warszawa")
-                .deliveryMethod("Courier GLS")
-                .orderData(LocalDateTime.now())
-                .value(new BigDecimal(200L))
-                .build();
-
+    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) throws OrderNotFoundException {
+        Order order = orderService.getOrder(id);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto) throws OrderNotFoundException {
-        return orderDto;
+    public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException, CartNotFoundException{
+        securityService.authorize();
+        Order order = orderMapper.mapToOrder(orderDto);
+        Order savedOrder = orderService.saveOrder(order);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable long id) {
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
+        securityService.authorize();
+        orderService.deleteOrder(orderId);
+        return ResponseEntity.ok().build();
     }
-
-
 }

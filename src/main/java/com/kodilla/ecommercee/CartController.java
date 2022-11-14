@@ -4,13 +4,16 @@ import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.domain.ProductDto;
 import com.kodilla.ecommercee.entity.Cart;
+import com.kodilla.ecommercee.entity.Order;
 import com.kodilla.ecommercee.entity.Product;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.CartService;
+import com.kodilla.ecommercee.service.OrderService;
 import com.kodilla.ecommercee.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,9 +29,11 @@ public class CartController {
 
     private final CartMapper cartMapper;
     private final ProductMapper productMapper;
+    private final OrderMapper orderMapper;
     private final CartService cartService;
-
     private final ProductService productService;
+    private final OrderService orderService;
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<CartDto> createNewCart(@RequestBody CartDto cartDto) throws UserNotFoundException {
@@ -73,6 +78,13 @@ public class CartController {
 
     @GetMapping(value = "/{id}/order",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    void createOrder(@RequestParam long id, @RequestBody OrderDto orderDto) throws CartNotFoundException {
+    ResponseEntity<OrderDto> createOrder(@RequestParam long id, @RequestBody OrderDto orderDto) throws CartNotFoundException, UserNotFoundException {
+        Order order = orderMapper.mapToOrder(orderDto);
+        Cart cart = cartService.getCartById(id);
+
+        order.setCart(cart);
+        Order savedOrder = orderService.saveOrder(order);
+
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 }
