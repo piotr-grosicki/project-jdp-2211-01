@@ -2,34 +2,40 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.entity.Order;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderMapper {
-    public Order mapToOrder(final OrderDto orderDto) {
+
+    private final UserService userService;
+    public Order mapToOrder(final OrderDto orderDto) throws UserNotFoundException {
         return Order.builder()
-                .orderId(orderDto.getOrderId())
+                .id(orderDto.getId())
                 .deliveryAddress(orderDto.getDeliveryAddress())
                 .deliveryMethod(orderDto.getDeliveryMethod())
                 .orderDateTime(orderDto.getOrderDateTime())
                 .value(orderDto.getValue())
-                .user(orderDto.getUser())
-                .cartId(orderDto.getCartId())
+                .user(userService.findUser(orderDto.getUserId()))
+                .cart(null)
                 .build();
     }
 
     public OrderDto mapToOrderDto(final Order order) {
         return OrderDto.builder()
-                .orderId(order.getOrderId())
+                .Id(order.getId())
                 .deliveryAddress(order.getDeliveryAddress())
                 .deliveryMethod(order.getDeliveryMethod())
                 .orderDateTime(order.getOrderDateTime())
                 .value(order.getValue())
-                .user(order.getUser())
-                .cartId(order.getCartId())
+                .userId(order.getUser().getId())
+                .cartId(order.getCart().getId())
                 .build();
     }
 
