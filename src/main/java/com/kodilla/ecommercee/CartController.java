@@ -76,7 +76,7 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/{id}/order",
+    @PostMapping(value = "/{id}/order",
             consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<OrderDto> createOrder(@RequestParam long id, @RequestBody OrderDto orderDto) throws CartNotFoundException, UserNotFoundException {
         Order order = orderMapper.mapToOrder(orderDto);

@@ -27,16 +27,16 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(GroupNotFoundException.class)
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return new ResponseEntity<>("Group doesn't exist", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return new ResponseEntity<>("Order doesn't exist", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<Object> handleCartNotFoundException(CartNotFoundException exception) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return new ResponseEntity<>("Cart doesn't exist", HttpStatus.NOT_FOUND);
     }
 }
