@@ -29,7 +29,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @ExceptionHandler(GroupNotFoundException.class)
+    @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleTaskNotFoundException(OrderNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
