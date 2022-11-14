@@ -37,6 +37,10 @@ public class UserService {
         userDao.save(user);
     }
 
+    public User findUser(long id) throws UserNotFoundException {
+        return userDao.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
     public void blockUser(long id) throws UserNotFoundException {
         User user = userDao.findById(id).orElseThrow(UserNotFoundException::new);
         user.setActive(false);

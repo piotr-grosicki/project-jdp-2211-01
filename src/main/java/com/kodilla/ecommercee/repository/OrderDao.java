@@ -6,14 +6,17 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface OrderDao extends CrudRepository<Order, Long> {
+    @Override
+    List<Order> findAll();
 
     @Override
     Order save(Order order);
 
     @Override
-    Optional<Order> findById(Long id);
+    Optional<Order> findById(Long orderId);
 
     @Override
-    List<Order> findAll();
+    void deleteById(Long orderId);
 }
