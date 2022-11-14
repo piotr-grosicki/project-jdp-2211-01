@@ -26,6 +26,7 @@ public class OrderController {
     @GetMapping
     public ResponseEntity <List<OrderDto>> getOrders() {
         List<Order> orders = orderService.getAllOrders();
+
         return ResponseEntity.ok(orderMapper.mapToOrderDtoList(orders));
     }
 
@@ -34,12 +35,14 @@ public class OrderController {
         securityService.authorize();
         Order order = orderMapper.mapToOrder(orderDto);
         Order savedOrder = orderService.saveOrder(order);
+
         return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) throws OrderNotFoundException {
         Order order = orderService.getOrder(id);
+
         return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
@@ -48,6 +51,7 @@ public class OrderController {
         securityService.authorize();
         Order order = orderMapper.mapToOrder(orderDto);
         Order savedOrder = orderService.saveOrder(order);
+        
         return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
@@ -55,6 +59,7 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
         securityService.authorize();
         orderService.deleteOrder(orderId);
+
         return ResponseEntity.ok().build();
     }
 }
