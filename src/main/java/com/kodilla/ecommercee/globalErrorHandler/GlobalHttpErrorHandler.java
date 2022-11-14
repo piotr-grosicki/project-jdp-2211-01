@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.globalErrorHandler;
 
-import com.kodilla.ecommercee.entity.Order;
 import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;

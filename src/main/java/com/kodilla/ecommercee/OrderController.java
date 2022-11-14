@@ -21,33 +21,34 @@ public class OrderController {
     private final OrderDbService orderDbService;
 
     @GetMapping
-    public List<OrderDto> getOrders() {
+    public ResponseEntity <List<OrderDto>> getOrders() {
         List<Order> orders = orderDbService.getAllOrders();
-        return orderMapper.mapToOrderDtoList(orders);
+        return ResponseEntity.ok(orderMapper.mapToOrderDtoList(orders));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException {
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException {
         Order order = orderMapper.mapToOrder(orderDto);
-        orderDbService.saveOrder(order);
-        return ResponseEntity.ok(null);
+        Order savedOrder = orderDbService.saveOrder(order);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
     @GetMapping(value = "/{orderId}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable Long orderId) throws OrderNotFoundException {
-        return ResponseEntity.ok(orderMapper.mapToOrderDto(orderDbService.getOrder(orderId)));
+        Order order = orderDbService.getOrder(orderId);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException{
         Order order = orderMapper.mapToOrder(orderDto);
-        orderDbService.saveOrder(order);
-        return ResponseEntity.ok(null);
+        Order savedOrder = orderDbService.saveOrder(order);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
         orderDbService.deleteOrder(orderId);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
     }
 }
