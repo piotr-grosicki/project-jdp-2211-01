@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee;
 
+import com.kodilla.ecommercee.annotation.AuthorizeBeforeModifying;
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.entity.Order;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
@@ -17,8 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/orders")
 @RequiredArgsConstructor
+@AuthorizeBeforeModifying
 public class OrderController {
-    private final SecurityService securityService;
     private final OrderMapper orderMapper;
     private final OrderDbService orderDbService;
 
@@ -30,7 +31,6 @@ public class OrderController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException {
-        securityService.authorize();
         Order order = orderMapper.mapToOrder(orderDto);
         Order savedOrder = orderDbService.saveOrder(order);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
@@ -44,7 +44,6 @@ public class OrderController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException{
-        securityService.authorize();
         Order order = orderMapper.mapToOrder(orderDto);
         Order savedOrder = orderDbService.saveOrder(order);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
@@ -52,7 +51,6 @@ public class OrderController {
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
-        securityService.authorize();
         orderDbService.deleteOrder(orderId);
         return ResponseEntity.ok().build();
     }

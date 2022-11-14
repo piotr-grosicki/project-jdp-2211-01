@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee;
 
 
+import com.kodilla.ecommercee.annotation.AuthorizeBefore;
 import com.kodilla.ecommercee.domain.AuthDto;
 import com.kodilla.ecommercee.domain.UserDto;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
@@ -31,8 +32,8 @@ public class UserController {
 
 
     @PatchMapping(value = "/{userID}/blockUser")
+    @AuthorizeBefore
     public ResponseEntity<Void> blockUser(@PathVariable long userID) throws UserNotFoundException {
-        securityService.authorize();
         userService.blockUser(userID);
         return ResponseEntity.ok(null);
     }

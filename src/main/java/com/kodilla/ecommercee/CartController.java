@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee;
 
+import com.kodilla.ecommercee.annotation.AuthorizeBeforeModifying;
 import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.domain.ProductDto;
@@ -25,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/carts")
+@AuthorizeBeforeModifying
 @RequiredArgsConstructor
 public class CartController {
 

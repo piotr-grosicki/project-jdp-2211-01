@@ -1,12 +1,12 @@
 package com.kodilla.ecommercee;
 
+import com.kodilla.ecommercee.annotation.AuthorizeBeforeModifying;
 import com.kodilla.ecommercee.domain.ProductDto;
 import com.kodilla.ecommercee.entity.Product;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.ProductService;
 import com.kodilla.ecommercee.service.SecurityService;
-import com.kodilla.ecommercee.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/products")
 @RequiredArgsConstructor
+@AuthorizeBeforeModifying
 public class ProductController {
     private final ProductService productService;
     private final ProductMapper mapper;
-
-    private final SecurityService securityService;
 
     @GetMapping
     public ResponseEntity<List<ProductDto>> getProducts() {
@@ -31,25 +30,23 @@ public class ProductController {
         return ResponseEntity.ok(productDtoList);
     }
 
-    @GetMapping(value = "/{productId}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable long productId) throws ProductNotFoundException {
-        Product product = productService.getProduct(productId);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable long id) throws ProductNotFoundException {
+        Product product = productService.getProduct(id);
         ProductDto productDto = mapper.mapToProductDto(product);
 
         return ResponseEntity.ok(productDto);
     }
 
-    @DeleteMapping(value = "/{productId}")
-    public ResponseEntity<ProductDto> deleteProduct(@PathVariable long productId) throws ProductNotFoundException {
-        securityService.authorize();
-        productService.removeProduct(productId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<ProductDto> deleteProduct(@PathVariable long id) throws ProductNotFoundException {
+        productService.removeProduct(id);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
     public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
-        securityService.authorize();
         Product product = mapper.mapToProduct(productDto);
         Product updatedProduct = productService.saveProduct(product);
 
@@ -60,7 +57,6 @@ public class ProductController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
-        securityService.authorize();
         Product product = mapper.mapToProduct(productDto);
         Product addedProduct = productService.saveProduct(product);
 
