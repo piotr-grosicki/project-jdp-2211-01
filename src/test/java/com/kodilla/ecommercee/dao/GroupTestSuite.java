@@ -97,23 +97,4 @@ public class GroupTestSuite {
         groupDao.deleteById(groupResult.get().getId());
     }
 
-    @Test
-    public void testDeleteGroup() {
-        //given
-        Group group = Group.builder()
-                .name("PC")
-                .description("Personal Computer")
-                .build();
-        groupDao.save(group);
-        Long groupId = group.getId();
-        Optional<Group> optionalGroup = groupDao.findById(group.getId());
-
-        //when
-        groupDao.deleteById(groupId);
-
-        //then
-        assertFalse(optionalGroup.isPresent());
-
-    }
-
 }
