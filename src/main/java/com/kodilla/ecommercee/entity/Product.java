@@ -7,16 +7,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
-import java.util.LinkedList;
 import java.util.List;
 
 
 @Entity
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Builder
 public class Product {
     @Id
@@ -46,7 +45,10 @@ public class Product {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @Builder.Default
-    private List<Cart> carts = new LinkedList<>();
+    @ManyToMany(
+            mappedBy = "products",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST
+    )
+    private List<Cart> carts;
 }
