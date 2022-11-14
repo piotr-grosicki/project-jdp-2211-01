@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.OrderMapper;
 import com.kodilla.ecommercee.service.OrderDbService;
+import com.kodilla.ecommercee.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
+    private final SecurityService securityService;
     private final OrderMapper orderMapper;
     private final OrderDbService orderDbService;
 
@@ -28,19 +30,21 @@ public class OrderController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> createOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException {
+        securityService.authorize();
         Order order = orderMapper.mapToOrder(orderDto);
         Order savedOrder = orderDbService.saveOrder(order);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
-    @GetMapping(value = "/{orderId}")
-    public ResponseEntity<OrderDto> getOrder(@PathVariable Long orderId) throws OrderNotFoundException {
-        Order order = orderDbService.getOrder(orderId);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<OrderDto> getOrder(@PathVariable Long id) throws OrderNotFoundException {
+        Order order = orderDbService.getOrder(id);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(order));
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) throws UserNotFoundException{
+        securityService.authorize();
         Order order = orderMapper.mapToOrder(orderDto);
         Order savedOrder = orderDbService.saveOrder(order);
         return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
@@ -48,6 +52,7 @@ public class OrderController {
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
+        securityService.authorize();
         orderDbService.deleteOrder(orderId);
         return ResponseEntity.ok().build();
     }
