@@ -43,7 +43,7 @@ public class UserTestSuite {
                 .login("Test login")
                 .password("Test password")
                 .build();
-
+        
         Order order = Order.builder()
                 .deliveryMethod("test")
                 .deliveryAddress("test")
@@ -54,8 +54,8 @@ public class UserTestSuite {
         Cart cart = new Cart();
 
         //When
-        user.getOrderId().add(order);
-        user.getCartId().add(cart);
+        user.getOrders().add(order);
+        user.getCarts().add(cart);
 
         userDao.save(user);
 
@@ -63,11 +63,11 @@ public class UserTestSuite {
         Long id = user.getId();
         Optional<User> readUser = userDao.findById(id);
 
-        Long orderId = order.getOrderId();
+        Long orderId = order.getId();
         Optional<Order> readOrder = orderDao.findById(orderId);
 
-        Long cartId = cart.getCartId();
-        Optional<Cart> readCart = cartDao.findByCartId(cartId);
+        Long cartId = cart.getId();
+        Optional<Cart> readCart = cartDao.findById(cartId);
 
         assertTrue(readUser.isPresent());
 

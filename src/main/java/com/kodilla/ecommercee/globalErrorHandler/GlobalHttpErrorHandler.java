@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.globalErrorHandler;
 
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,14 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException e) {
         return new ResponseEntity<>("Product not found", HttpStatus.BAD_REQUEST);
     }
-    
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
-        return new ResponseEntity<>("User doesn't exist", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("User doesn't exist", HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<Object> handleTaskNotFoundException(GroupNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

@@ -23,15 +23,13 @@ public class ProductMapper {
     }
 
     public ProductDto mapToProductDto(Product product) {
-        ProductDto productDto = ProductDto.builder()
+        return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .quantity(product.getQuantity())
                 .price(product.getPrice())
                 .build();
-
-        return productDto;
     }
 
     public List<ProductDto> mapToProductsDtoList(List<Product> productList) {
