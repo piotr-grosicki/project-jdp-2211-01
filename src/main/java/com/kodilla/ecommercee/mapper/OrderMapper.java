@@ -2,7 +2,9 @@ package com.kodilla.ecommercee.mapper;
 
 import com.kodilla.ecommercee.domain.OrderDto;
 import com.kodilla.ecommercee.entity.Order;
+import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
+import com.kodilla.ecommercee.service.CartService;
 import com.kodilla.ecommercee.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,9 @@ import java.util.stream.Collectors;
 public class OrderMapper {
 
     private final UserService userService;
-    public Order mapToOrder(final OrderDto orderDto) throws UserNotFoundException {
+
+    private final CartService cartService;
+    public Order mapToOrder(final OrderDto orderDto) throws UserNotFoundException, CartNotFoundException {
         return Order.builder()
                 .id(orderDto.getId())
                 .deliveryAddress(orderDto.getDeliveryAddress())
@@ -23,7 +27,7 @@ public class OrderMapper {
                 .orderDateTime(orderDto.getOrderDateTime())
                 .value(orderDto.getValue())
                 .user(userService.findUser(orderDto.getUserId()))
-                .cart(null)
+                .cart(cartService.getCartById(orderDto.getCartId()))
                 .build();
     }
 

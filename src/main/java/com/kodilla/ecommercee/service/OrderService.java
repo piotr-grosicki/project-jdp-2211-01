@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderDbService {
+public class OrderService {
     private final OrderDao orderRepository;
 
     public List<Order> getAllOrders() {
