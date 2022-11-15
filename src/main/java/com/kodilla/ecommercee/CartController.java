@@ -36,7 +36,7 @@ public class CartController {
 
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CartDto> createNewCart(@RequestBody CartDto cartDto) throws UserNotFoundException {
+    public ResponseEntity<CartDto> createNewCart(@RequestBody CartDto cartDto) throws UserNotFoundException {
         Cart cart = cartService.saveCart(cartMapper.mapToCart(cartDto));
         CartDto savedCart = cartMapper.mapToCartDto(cart);
 
@@ -44,7 +44,7 @@ public class CartController {
     }
 
     @GetMapping(value = "/{cartId}")
-    ResponseEntity<List<ProductDto>> getProductsFromCart(@PathVariable long cartId) throws CartNotFoundException {
+    public ResponseEntity<List<ProductDto>> getProductsFromCart(@PathVariable long cartId) throws CartNotFoundException {
         List<Product> products = cartService.getListOfProduct(cartId);
         List<ProductDto> productsDto = productMapper.mapToProductsDtoList(products);
 
@@ -52,7 +52,7 @@ public class CartController {
     }
 
     @PutMapping(value = "/{id}/{productId}")
-    ResponseEntity<CartDto> addProductToCart(@PathVariable long id, @PathVariable long productId) throws CartNotFoundException, ProductNotFoundException {
+    public ResponseEntity<CartDto> addProductToCart(@PathVariable long id, @PathVariable long productId) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartService.getCartById(id);
         Product product = productService.getProduct(productId);
 
@@ -66,7 +66,7 @@ public class CartController {
     }
 
     @DeleteMapping(value = "/{id}/{productId}")
-    ResponseEntity<CartDto> removeProductFromCart(@PathVariable long id, @PathVariable long productId) throws CartNotFoundException, ProductNotFoundException {
+    public ResponseEntity<CartDto> removeProductFromCart(@PathVariable long id, @PathVariable long productId) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartService.getCartById(id);
         Product product = productService.getProduct(productId);
 
@@ -78,7 +78,7 @@ public class CartController {
 
     @PostMapping(value = "/{id}/order",
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<OrderDto> createOrder(@RequestParam long id, @RequestBody OrderDto orderDto) throws CartNotFoundException, UserNotFoundException {
+    public ResponseEntity<OrderDto> createOrder(@RequestParam long id, @RequestBody OrderDto orderDto) throws CartNotFoundException, UserNotFoundException {
         Order order = orderMapper.mapToOrder(orderDto);
         Cart cart = cartService.getCartById(id);
 
