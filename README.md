@@ -1,73 +1,10 @@
 ## Ecommercee Application ##
 1. Ecommercee is a ***REST*** online store project, which is using ***MySQL*** as a database source, build with ***Spring Boot*** and ***Hibernate*** frameworks.
-2. <screens>,
-3. To compile project, we need JVM version **1.8** with SpringBoot framework version **2.1.18.RELEASE**
-4. To build project we have to use command ’ ./gradlew build ’
-5. Endpoints:
-   1. Product Controller:
-   Product controller has the following endpoints:
-
-Get an Action
-
-GET /v1/products -  return list of all products
-
-GET /v1/products/{productId} - display the product details
-
-productId REQUIRED path parameters
-Long
-
-DELETE /v1/products/{productId} - delete the product by product id
-
-productId REQUIRED path parameters
-Long
-
-POST /v1/products - adding new product, request body JSON format required
-
-Example :
-{
-„Name”: „name”
-„Description”: „description”
-„Quantity’: 223,
-„Price”: 100
-}
-
-PUT /v1/products - editing the existing product, request body JSON format required
-
-Example :
-{
-"id": 1,
-"Name": "name:
-"Description": "Description"
-"description": 223,
-"Price": 100
-}
-   2. User Controller:
-      User Controller has the following endpoints:
-
-POST /v1/users - create new user, request body JSON format required
-
-Example: 
-
-      {
-      "firstName":"Test name",
-      "surname":"Test surname",
-      "deliveryAddress":"Test address",
-      "login":"Test login",
-      "password":"Test password"    
-      }
-PATCH /v1/{userdId}/blockUser - block existing user, userId REQUIRED path parameters Long
-
-POST /v1/generateToken - generates token for user after passing correct login/password,
-request body JSON format required
-
-Example: 
-
-      {
-      "login":"Test login",
-      "password":"Test password"
-      }
-
-6. You can use the project as a background for online store. To develop the architecture of application, we can add tracking tools to collect data about our users and prepare personalized offers for out customers.
-
-7.
-
+2. To compile project, we need JVM version **1.8** with SpringBoot framework version **2.1.18.RELEASE**
+3. To build a project we have to use command ’ ./gradlew build ’
+4. You can use api on this page http://localhost:8080/swagger-ui.html, postman or other application
+5. When you want to modify data you need
+    1. generate token ![generate token](generateToken.png)
+    2. use Authorize button ![use Authorize button](authorizeStep1.png)
+    3. You need type token with prefix "Bearer "
+6. When you want to modify data you need to be careful in this version because for sub-entities sometimes you need to add a list of ids and sometimes a list of objects.
