@@ -12,9 +12,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class OrderDto {
-    private long orderId;
+    private Long Id;
     private String deliveryAddress;
     private String deliveryMethod;
-    private LocalDateTime orderData;
+    private LocalDateTime orderDateTime;
     private BigDecimal value;
+    private Long userId;
+    private Long cartId;
 }

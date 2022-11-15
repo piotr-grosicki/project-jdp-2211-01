@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -31,9 +30,6 @@ import static org.junit.Assert.assertTrue;
 @RequiredArgsConstructor
 @WebAppConfiguration
 public class CartTestSuite {
-
-    @Autowired
-    MockHttpSession session;
     @Autowired
     private CartDao cartDao;
     @Autowired
@@ -62,7 +58,10 @@ public class CartTestSuite {
                 .orderDateTime(LocalDateTime.now())
                 .build();
 
-        Group group = new Group();
+        Group group = Group.builder()
+                .name("Group test")
+                .description("Description test")
+                .build();
 
         Product product = new Product();
         product.setName("Name");
@@ -89,13 +88,13 @@ public class CartTestSuite {
         cartDao.save(cart);
 
         //Then
-        Long cartId = cart.getCartId();
-        Optional<Cart> readCart = cartDao.findByCartId(cartId);
+        Long cartId = cart.getId();
+        Optional<Cart> readCart = cartDao.findById(cartId);
 
         Long id = user.getId();
         Optional<User> readUser = userDao.findById(id);
 
-        Long orderId = order.getOrderId();
+        Long orderId = order.getId();
         Optional<Order> readOrder = orderDao.findById(orderId);
 
         Long productId = product.getId();

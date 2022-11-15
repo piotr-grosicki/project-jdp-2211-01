@@ -1,20 +1,19 @@
 package com.kodilla.ecommercee.repository;
 
-import com.kodilla.ecommercee.entity.Cart;
 import com.kodilla.ecommercee.entity.Group;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface CartDao extends CrudRepository<Cart, Long> {
+
+public interface GroupDao extends CrudRepository<Group, Long> {
+    @Override
+    Group save(Group group);
 
     @Override
-    Cart save(Cart cart);
+    List<Group> findAll();
 
     @Override
-    List<Cart> findAll();
-
-    @Override
-    Optional<Cart> findById(Long id);
+    Optional<Group> findById(Long id);
 }

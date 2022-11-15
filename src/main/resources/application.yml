@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    username: kodilla_user
+    url: jdbc:mysql://localhost:3306/kodilla_project?serverTimezone=Europe/Warsaw&allowPublicKeyRetrieval=true&useSSL=False
+    password: kodilla_password
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+application:
+  security:
+    jwt:
+      expired-time: 3600
+      secret: EWtQ,dsBAMWT5Qqy0X%8A]yPmmiyCHe_HG8Ub#]LA-+HWY^g,-LYC^YvYwQrG:57Eu,qk>cN)@Xun9>HowpDBx0#J1ds>KRnLyvD

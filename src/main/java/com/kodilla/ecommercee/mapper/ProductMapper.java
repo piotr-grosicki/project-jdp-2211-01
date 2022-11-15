@@ -23,20 +23,24 @@ public class ProductMapper {
     }
 
     public ProductDto mapToProductDto(Product product) {
-        ProductDto productDto = ProductDto.builder()
+        return ProductDto.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .quantity(product.getQuantity())
                 .price(product.getPrice())
                 .build();
-
-        return productDto;
     }
 
     public List<ProductDto> mapToProductsDtoList(List<Product> productList) {
         return productList.stream()
                 .map(this::mapToProductDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<Product> mapToProductsList(List<ProductDto> productDtoList) {
+        return productDtoList.stream()
+                .map(this::mapToProduct)
                 .collect(Collectors.toList());
     }
 }
